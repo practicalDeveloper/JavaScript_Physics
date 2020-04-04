@@ -1,0 +1,113 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Application</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/menu.css">
+    <base target="BoardFrame">
+</head>
+
+<body>
+
+    <div class="grid-container">
+
+        <!-- Header area -->
+        <div class="headerArea" style="margin: 0; padding: 0;">
+            <div class="Title">
+                <p>Physics</p>
+            </div>
+
+            <div class="Title">
+                <p id="ApplicationHeader">Modelling</p>
+            </div>
+        </div>
+
+        <!-- Canvas area -->
+        <div class="contentArea" id="divCanvas">
+            <div id="divCanvasInner">
+                <canvas id="Canvas"></canvas>
+            </div>
+        </div>
+
+        <!-- Menu area -->
+        <div class="menuArea" id="divMenu">
+
+            <div id="divMenuInner">
+                <div id="divMenuBox">
+
+
+                    <div class="menu-item" id="level1">
+                        <p class="firstLevelMenu">Forces</p>
+                        <div hidden class="menu-sub-item">
+                            <div data-topic="1">
+                                <a href="./BoardArea/Forces/ForcesByAngle.html">Forces Addition by Angle</a>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="menu-item" id="level2">
+                        <p class="firstLevelMenu">Fluid mechanics</p>
+                        <div hidden class="menu-sub-item">
+                            <div data-topic="2"><a href="./BoardArea/FluidMechanics/ArchimedesPrinciple.html">Archimedes’ Principle</a> </div>
+                        </div>
+                    </div>
+
+
+                    <div class="menu-item" id="level3">
+                        <p class="firstLevelMenu">Test</p>
+                        <div hidden class="menu-sub-item">
+                            <div><a href="./BoardArea/Forces/ForcesAddition.html">Sub tes</a> </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="menu-item" id="level5">
+                        <a href="./BoardArea/Forces/ForcesAddition.html">Test</a>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Controls area -->
+        <div class="sidebarArea" id="divControls">
+            <div id="divControlsInner">
+                <iframe  name="BoardFrame" id="BoardFrame" width="100%"
+                    height="100%" style="border:0">
+                </iframe>
+                <!-- <div>
+                    <button id="clickIt">Run experiment</button>
+                </div> -->
+            </div>
+        </div>
+
+        <!-- Footer area -->
+        <div class="footerArea"></div>
+    </div>
+
+
+    <script src="./js/Tools/appliance.js"></script>
+    <script src="./js/Tools/dynamometer.js"></script>
+    <script src="./js/Tools/spring.js"></script>
+    <script src="./js/Tools/ruler.js"></script>
+    <script src="./js/Tools/springDynamometer.js"></script>
+    <script src="./js/Tools/stageElements.js"></script>
+    
+
+    <script src="./js/constants.js"></script>
+    <script src="./js/topicsRender/forcesbyAngleRender.js"></script>
+    <script src="./js/topicsRender/archimedesPrincipleRender.js"></script>
+    <script src="./js/main.js"></script>
+
+</body>
+
+</html>

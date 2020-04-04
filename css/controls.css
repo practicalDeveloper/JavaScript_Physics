@@ -1,0 +1,86 @@
+.slider {
+  -webkit-appearance: none;
+  width: 85%;
+  height: 10px;
+  border-radius: 3px;
+  background: white;
+  outline: none;
+  opacity: 1;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #58a5bd;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #58a5bd;
+  cursor: pointer;
+}
+
+/* TextBox style  */
+input[type="text"],
+select {
+  width: 100%;
+  padding: 6px 10px;
+  margin: 2px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.button {
+  background-color: var(--level4-color);
+  border: none;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.button:active {
+  background-color: var(--level4-color-over);
+}
+
+/* Title area for an input element  */
+.contentTitle {
+  width: 180px;
+  align-items: center;
+}
+
+/* Input element area  */
+.content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* Labels styles  */
+.text,
+.contentTitle {
+  color: white;
+  font-size: 20px;
+}
+
+label {
+  vertical-align: middle;
+  display: inline-block;
+  color: white;
+  font-size: 20px;
+  /* margin-bottom:2em;  */
+}

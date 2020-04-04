@@ -1,0 +1,103 @@
+#divMenuBox {
+  border-top: 1px solid white;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+}
+
+/* Level 1 background styles */
+#level1 {
+  background-color: var(--level1-color);
+}
+
+#level1 a:hover,
+#level1 a:focus,
+#level1 a:active {
+  background: #d9dcb0;
+}
+
+#level1 a {
+  background: #ced174;
+}
+
+/* Level 2 background styles */
+#level2 {
+  background-color: var(--level2-color);
+}
+
+#level2 a:hover,
+#level2 a:focus,
+#level2 a:active {
+  background: #f8dfb1;
+}
+
+#level2 a {
+  background: #f8d28e;
+}
+
+/* Level 3 background styles */
+#level3 {
+  background-color: var(--level3-color);
+}
+
+#level3 a:hover,
+#level3 a:focus,
+#level3 a:active {
+  background: #eecdc8;
+}
+
+#level3 a {
+  background: #e7b0a7;
+}
+
+/* Level 4 background styles */
+#level4 {
+  background-color: #0292c0;
+}
+
+#level4 a:hover,
+#level4 a:focus,
+#level4 a:active {
+  background: #58a5bd;
+}
+
+/* Level 5 background styles */
+#level5 {
+  background-color: #5122b4;
+}
+
+.firstLevelMenu {
+  cursor: pointer;
+  margin: 0px;
+  padding: 20px;
+}
+
+.menu-item {
+  display: block;
+  cursor: pointer;
+  border-bottom: white solid 1px;
+}
+
+.menu-item a, .menu-sub-item a{
+    display: block;
+    padding: 20px;
+    text-decoration: none;
+}
+
+.menu-item a {
+  color: white;
+}
+
+.menu-sub-item a {
+  color: black;
+}
+
+.menu-sub-item {
+  cursor: pointer;
+}
+
+.menu-sub-item div {
+  display: block;
+  padding: 0px;
+  margin-top: 1px;
+  /* border-top: white solid  1px;   */
+}

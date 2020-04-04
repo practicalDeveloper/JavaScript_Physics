@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Forces by angle</title>
+    <link type="text/css" rel="Stylesheet" href="../../css/variables.css" />
+    <link rel="stylesheet" href="../../css/controls.css">
+</head>
+
+<body>
+
+    <!-- Angle selection -->
+    <div class="content">
+        <div class="contentTitle">Angle (degr.): </div>
+        <div class="content">
+            <!-- Range slider -->
+            <input type="range" min="55" max="150" value="110" step="0.1" class="slider" id="angleRange">
+            <!-- Value label-->
+            <div class="text"> </div>
+        </div>
+    </div>
+
+    <!-- X weight input -->
+    <div class="content">
+        <div class="contentTitle">X Weight (kg): </div>
+        <div class="content">
+            <input id="xWeightTextBox" size="5" type="text" value="1" />
+        </div>
+    </div>
+
+    <!-- Y weight input -->
+    <div class="content">
+        <div class="contentTitle">Y Weight (kg): </div>
+        <div class="content">
+            <input id="yWeightTextBox" size="5" type="text" value="1" />
+        </div>
+    </div>
+
+    <!--Z weight input -->
+    <div class="content">
+        <div class="contentTitle">Z Weight (kg): </div>
+        <div class="content">
+            <input id="zWeightTextBox" size="5" type="text" value="1" />
+        </div>
+    </div>
+
+    <!--Max dynam. value -->
+    <div class="content">
+        <div class="contentTitle">Max value (N): </div>
+        <div class="content">
+            <input id="maxValue" size="5" type="text" value="25" />
+        </div>
+    </div>
+
+    <!-- <button class="button" id="clickIt" onchange="frameRender.passControlsMessage();">Click here2</button> -->
+
+    <script src="../js/framesRendering.js"></script>
+    <script src="../../js/constants.js"></script>
+
+
+    <script type="text/javascript">
+
+        // function to post message to parent from IFrame with data
+        frameRender.passControlsMessage = function () {
+
+            let x = document.getElementById('xWeightTextBox').value;
+            let y = document.getElementById('yWeightTextBox').value;
+            let z = document.getElementById('zWeightTextBox').value;
+            let maxValue = document.getElementById("maxValue").value;
+            let angle = document.getElementById("angleRange").value;
+            
+            if (application.isNumber(x) && application.isNumber(y) &&
+                application.isNumber(z)) {
+                let pass_data = {
+                    'xWeight': x,
+                    'yWeight': y,
+                    'zWeight': z,
+                    'angle': angle,
+                    'maxValue': maxValue,
+                };
+
+                parent.postMessage(JSON.stringify(pass_data), "*");
+            }
+        } // passControlsMessage
+
+    </script>
+
+</body>
+
+</html>

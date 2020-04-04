@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Archimede's principle</title>
+    <link type="text/css" rel="Stylesheet" href="../../css/variables.css" />
+    <link rel="stylesheet" href="../../css/controls.css">
+</head>
+
+<body>
+
+    <!-- X weight input -->
+    <!-- <div class="content">
+        <div class="contentTitle">X Weight (kg): </div>
+        <div class="content">
+            <input id="xWeightTextBox" size="5" type="text" value="1" />
+        </div>
+    </div> -->
+
+
+    <!--Max dynam. value -->
+    <!-- <div class="content">
+        <div class="contentTitle">Max value (N): </div>
+        <div class="content">
+            <input id="maxValue" size="5" type="text" value="25" />
+        </div>
+    </div> --> 
+
+
+    <!--Run button -->
+    <div class="content">
+
+        <div class="content">
+            <button class="button" id="btnRun">Run dynamometer</button>
+        </div>
+    </div>
+
+    
+    <br>
+
+    <script src="../js/framesRendering.js"></script>
+    <script src="../../js/constants.js"></script>
+
+
+    <script type="text/javascript">
+
+        // // function to post message to parent from IFrame with data
+        // frameRender.passControlsMessage = function () {
+
+        //     let x = document.getElementById('xWeightTextBox').value;
+        //     let maxValue = document.getElementById("maxValue").value;
+
+        //     if (application.isNumber(x)) {
+        //         let pass_data = {
+        //             'xWeight': x,
+        //             'maxValue': maxValue,
+        //         };
+
+        //         parent.postMessage(JSON.stringify(pass_data), "*");
+        //     }
+        // } // passControlsMessage
+
+        document.getElementById("btnRun").onclick = function () {
+
+                let pass_data = {
+                    'xWeight': 0,
+                };
+
+                parent.postMessage(JSON.stringify(pass_data), "*");
+
+ 
+        }
+
+    </script>
+
+</body>
+
+</html>

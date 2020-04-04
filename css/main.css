@@ -1,0 +1,125 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  border: 0;
+  overflow: hidden; /*  Disable scrollbars */
+  display: block; /* No floating content on sides */
+}
+
+
+div.Title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+div.Title p {
+    margin: 0;
+    font-size: 40px;
+    font-family: "Bookman Old Style", serif;
+    line-height: 35px;
+    font-weight: bold;
+
+    color: var(--board-color);
+    text-shadow: 
+    1px  1px     #fff, 
+   -1px  1px     #fff, 
+    1px -1px     #fff, 
+   -1px -1px     #fff,
+    1px  1px 5px #555;
+}
+
+#ApplicationHeader {
+  font-size: 20px;
+  line-height: 20px;
+  color: var(--level4-color);
+}
+
+#divCanvas {
+  border: 13px solid rgb(221, 221, 221);
+  height: 100%;
+  box-shadow: 0px 0px 4px 3px rgba(0, 0, 0, 0.24);
+  border-radius: 7px;
+  background-color: white;
+}
+
+#divCanvasInner {
+  /* border: 5px solid rgba(71, 71, 71, 0.418);  */
+  height: 100%;
+  background: white;
+  box-shadow: inset 0 0 10px #000000;
+}
+
+#divControls {
+  border: 13px solid rgba(255, 178, 36, 0.767);
+  border-top-color: rgba(255, 215, 140, 0.767);
+  border-bottom-color: rgba(255, 215, 140, 0.767);
+  background: white;
+  box-shadow: 0px 0px 4px 3px rgba(0, 0, 0, 0.24);
+  border-radius: 7px;
+}
+
+#divControlsInner {
+  border: 5px solid rgb(196, 127, 0);
+  height: 100%;
+  background: var(--board-color);
+  box-shadow: inset 0 0 10px #000000;
+}
+
+#divMenu {
+  color: white;
+  border: 13px solid rgba(255, 178, 36, 0.767);
+  border-top-color: rgba(255, 215, 140, 0.767);
+  border-bottom-color: rgba(255, 215, 140, 0.767);
+  box-shadow: 0px 0px 4px 3px rgba(0, 0, 0, 0.24);
+  border-radius: 7px;
+  background-color: rgba(168, 168, 168, 0.1);
+}
+
+#divMenuInner {
+  border: 5px solid rgb(196, 127, 0);
+  padding: 10px;
+  height: 100%;
+  background: var(--board-color);
+  box-shadow: inset 0 0 4px #000000;
+}
+
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+.grid-container {
+  height: 100vh;
+  display: grid;
+  grid-template-areas:
+    ". . headerArea headerArea headerArea . ."
+    ". . . . . . ."
+    ". menuArea . contentArea . sidebarArea ."
+    ". . . . . . ."
+    ". footerArea footerArea footerArea footerArea footerArea .";
+  grid-template-columns: 10px 14% 15px 1fr 15px 25% 10px;
+  grid-template-rows: 55px 5px 1fr 5px 30px;
+}
+.headerArea {
+  grid-area: headerArea;
+}
+.menuArea {
+  grid-area: menuArea;
+}
+.sidebarArea {
+  grid-area: sidebarArea;
+}
+.contentArea {
+  grid-area: contentArea;
+}
+.footerArea {
+  grid-area: footerArea;
+}
