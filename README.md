@@ -1,1 +1,1 @@
-# Javasscript_Physics
+Vanilla JavaScript and HTML5 presentation. This is inital release of not completed project, which is written via latest JS possiblities (ES5, ES6, ES7). Demonstrations include models from the world of physics. To see demonstration simply launch main.html from downoladed project.
