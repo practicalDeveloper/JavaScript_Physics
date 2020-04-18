@@ -25,7 +25,6 @@ const forcesbyAngle = {
         dynamRadius: 120,
         leftDynamCoord: { x: 0, y: 0 },
         rightDynamCoord: { x: 0, y: 0 },
-        dropPosition: { x: 0, y: 0 }, // position where to drop movement brick
         curveLength: 120, // length of the curve to suspend bricks
         dropAreaSize: 100 // size of an area where to drop movement brick
     },
@@ -60,6 +59,7 @@ const forcesbyAngle = {
      * Initialization
      */
     init: function () {
+
         this.vars.suspendedCount = 0;
         this.applySettings();
         this.dynamometers = forcesbyAngle.initRender();
@@ -67,7 +67,6 @@ const forcesbyAngle = {
         dragRendering.refresh = function () { forcesbyAngle.refreshDrawDrag(); };
         dragRendering.stoppedDragging = function (elem) { forcesbyAngle.stoppedDrawDrag(elem); };
         dragRendering.startedDragging = function (elem) { forcesbyAngle.startedDrawDrag(elem); };
-        this.calculateDropPosition();
     },
 
     /**
@@ -131,8 +130,8 @@ const forcesbyAngle = {
 
         // Adds bricks to the canvas
         dragRendering.addElements(bricks);
-        this.settings.cargoSizeWithHook = dragRendering.dragElements[0].elem.props.geItemHeight();
-        this.settings.upperHookHeight = dragRendering.dragElements[0].elem.props.getUpperHookSize();
+        this.settings.cargoSizeWithHook = dragRendering.dragElements[0].elem.geItemHeight();
+        this.settings.upperHookHeight = dragRendering.dragElements[0].elem.getUpperHookSize();
 
         // Draws dynamometers
         dynamLeft.draw();
@@ -251,10 +250,15 @@ const forcesbyAngle = {
         this.vars.startedDragCoord.y = el.y;
     },
 
-    calculateDropPosition: function () {
-        this.settings.dropPosition.x = this.canvas.clientWidth / 2;
-        this.settings.dropPosition.y = (3 * this.settings.dynamRadius) + this.settings.upperHookHeight +
+    /**
+     * gets position where to drop movement brick
+     */
+    getDropPosition: function () {
+        let x = this.canvas.clientWidth / 2;
+        let y = (3 * this.settings.dynamRadius) + this.settings.upperHookHeight +
             (this.vars.suspendedCount * this.settings.cargoSizeWithHook);
+
+        return { x: x, y: y };
     },
 
 
@@ -267,17 +271,19 @@ const forcesbyAngle = {
         let el = dragRendering.findElem(dropElem.id);
         let setPos = (x, y) => { el.x = x; el.y = y; }
 
-        // if brick is within then borders of drop area
-        if (dropElem.elem.x > (this.settings.dropPosition.x - this.settings.dropAreaSize) &&
-            dropElem.elem.x < (this.settings.dropPosition.x + this.settings.dropAreaSize) &&
-            dropElem.elem.y > (this.settings.dropPosition.y - this.settings.dropAreaSize) &&
-            dropElem.elem.y < (this.settings.dropPosition.y + this.settings.dropAreaSize)) {
-            setPos(this.settings.dropPosition.x - this.settings.cargoSize / 2, this.settings.dropPosition.y);
+        let xDrop = this.getDropPosition().x;
+        let yDrop = this.getDropPosition().y;
+
+        // if brick is within borders of drop area
+        if (dropElem.elem.x > (xDrop - this.settings.dropAreaSize) &&
+            dropElem.elem.x < (xDrop + this.settings.dropAreaSize) &&
+            dropElem.elem.y > (yDrop - this.settings.dropAreaSize) &&
+            dropElem.elem.y < (yDrop + this.settings.dropAreaSize)) {
+            setPos(xDrop - this.settings.cargoSize / 2, yDrop);
 
             // if element was taken from the box 
             if (el.x !== this.vars.startedDragCoord.x && el.y !== this.vars.startedDragCoord.y) {
                 this.vars.suspendedCount++;
-                this.calculateDropPosition();
                 dragRendering.redraw();
                 this.vars.totalWeight += Number(el.weight);
             }
@@ -286,12 +292,10 @@ const forcesbyAngle = {
 
                 this.vars.totalWeight -= Number(el.weight);
                 this.vars.suspendedCount--;
-                this.calculateDropPosition();
-                setPos(this.settings.dropPosition.x - this.settings.cargoSize / 2, this.settings.dropPosition.y);
+                setPos(xDrop - this.settings.cargoSize / 2, yDrop);
                 dragRendering.redraw();
 
                 this.vars.suspendedCount++;
-                this.calculateDropPosition();
                 this.vars.totalWeight += Number(el.weight);
             }
 
@@ -313,7 +317,6 @@ const forcesbyAngle = {
 
             if (el.x !== this.vars.startedDragCoord.x && el.y !== this.vars.startedDragCoord.y) {
                 this.vars.suspendedCount--;
-                this.calculateDropPosition();
                 this.vars.totalWeight -= Number(el.weight);
             }
             dragRendering.redraw();
@@ -355,7 +358,7 @@ const forcesbyAngle = {
             });
 
             //  only last brick on the rope can be dragged
-            let pos = this.settings.dropPosition.y - this.settings.cargoSizeWithHook;
+            let pos = this.getDropPosition().y - this.settings.cargoSizeWithHook;
             dragRendering.dragElements.forEach(element => {
                 if (element.elem.y === pos) {
                     element.isDraggable = true;
@@ -383,13 +386,12 @@ const forcesbyAngle = {
     clear: function () {
         this.vars.suspendedCount = 0;
         this.vars.totalWeight = 0;
-        if (dragRendering.dragElements[0].elem !== undefined) {
+        if (dragRendering.dragElements.length > 0) {
             dragRendering.dragElements.forEach(element => { element.isDraggable = true; });
             let setPos = (el, x, y) => { el.x = x; el.y = y; }
             setPos(dragRendering.findElem(this.constants.xBrickName), this.settings.xCargoCoord.x, this.settings.xCargoCoord.y);
             setPos(dragRendering.findElem(this.constants.yBrickName), this.settings.yCargoCoord.x, this.settings.yCargoCoord.y);
             setPos(dragRendering.findElem(this.constants.zBrickName), this.settings.zCargoCoord.x, this.settings.zCargoCoord.y);
-            this.calculateDropPosition();
         }
 
         if (this.dynamometers !== undefined) {

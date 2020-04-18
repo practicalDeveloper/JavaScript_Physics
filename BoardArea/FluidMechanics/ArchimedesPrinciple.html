@@ -11,29 +11,30 @@
 <body>
 
     <!-- X weight input -->
-    <!-- <div class="content">
-        <div class="contentTitle">X Weight (kg): </div>
+    <div class="content">
+        <div class="contentTitle">Cargo weight (kg): </div>
         <div class="content">
-            <input id="xWeightTextBox" size="5" type="text" value="1" />
+            <!-- Weight slider -->
+            <input type="range" min="0.1" max="2" value="0.1" step="0.1" class="slider" id="weightRange">
+            <!-- Value label-->
+            <div class="text"> </div>
         </div>
-    </div> -->
+
+        
+    </div>
 
 
     <!--Max dynam. value -->
-    <!-- <div class="content">
+    <div class="content">
         <div class="contentTitle">Max value (N): </div>
         <div class="content">
-            <input id="maxValue" size="5" type="text" value="25" />
+            <!-- Max dynam. value slider -->
+            <input type="range" min="5" max="20" value="15" step="1" class="slider" id="maxValueRange">
+            <!-- Value label-->
+            <div class="text"> </div>      
         </div>
-    </div> --> 
 
-
-    <!--Run button -->
-    <div class="content">
-
-        <div class="content">
-            <button class="button" id="btnRun">Run dynamometer</button>
-        </div>
+        
     </div>
 
     
@@ -45,32 +46,21 @@
 
     <script type="text/javascript">
 
-        // // function to post message to parent from IFrame with data
-        // frameRender.passControlsMessage = function () {
+        // function to post message to parent from IFrame with data
+        frameRender.passControlsMessage = function () {
 
-        //     let x = document.getElementById('xWeightTextBox').value;
-        //     let maxValue = document.getElementById("maxValue").value;
+            let w = document.getElementById('weightRange').value;
+            let maxValue = document.getElementById("maxValueRange").value;
 
-        //     if (application.isNumber(x)) {
-        //         let pass_data = {
-        //             'xWeight': x,
-        //             'maxValue': maxValue,
-        //         };
-
-        //         parent.postMessage(JSON.stringify(pass_data), "*");
-        //     }
-        // } // passControlsMessage
-
-        document.getElementById("btnRun").onclick = function () {
-
+            if (application.isNumber(w)) {
                 let pass_data = {
-                    'xWeight': 0,
+                    'weight': w,
+                    'maxValue': maxValue,
                 };
 
                 parent.postMessage(JSON.stringify(pass_data), "*");
-
- 
-        }
+            }
+        } // passControlsMessage
 
     </script>
 

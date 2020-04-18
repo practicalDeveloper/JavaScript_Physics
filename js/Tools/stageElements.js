@@ -16,7 +16,7 @@ function MovableItem(options = {}) {
     isDragging: false,
     weight: 1,
     itemText: "item",
-    lineWidth : 2,
+    lineWidth: 2,
     canvas: undefined,
   }, options);
 
@@ -26,9 +26,6 @@ function MovableItem(options = {}) {
    */
   this.props = {
     getItemFont: () => this.width * 0.35 + "px Tahoma", // font of label for item
-    getHookSize: () => this.height/2, // Width and height of bottom hook
-    getUpperHookSize: () => this.height/5, // height of upper hook
-    geItemHeight: () => this.height + this.props.getHookSize() + this.props.getUpperHookSize(), // total height of element
 
     /**
     * creates and returns linear gradient
@@ -51,24 +48,44 @@ function MovableItem(options = {}) {
      * draws a hook for an item
      */
     drawHook: (ctx) => {
-      let xCoord = this.x + this.width/2;
+      let xCoord = this.x + this.width / 2;
       let yCoord = this.y + this.height;
 
-      ctx.lineWidth = this.lineWidth; 
+      ctx.lineWidth = this.lineWidth;
       ctx.beginPath();
-      let hLine = this.props.getUpperHookSize();
+      let hLine = this.getUpperHookSize();
       //draw upper line
-      ctx.moveTo(this.x + this.width/2, this.y);
-      ctx.lineTo(this.x + this.width/2, this.y - hLine);
+      ctx.moveTo(this.x + this.width / 2, this.y);
+      ctx.lineTo(this.x + this.width / 2, this.y - hLine);
       ctx.stroke();
 
-      var hook = new Hook({ x: xCoord, y: yCoord, size: this.props.getHookSize(),  canvas: appElements.canvas});
+      var hook = new Hook({ x: xCoord, y: yCoord, size: this.getHookSize(), canvas: appElements.canvas });
       hook.draw();
     }, // drawHook
 
   }; // this.props
 
 
+  /**
+  * Gets width and height of bottom hook
+  */
+  this.getHookSize = () => {
+    return this.height / 2;
+  }
+
+  /**
+  * Gets height of upper hook
+  */
+  this.getUpperHookSize = () => {
+    return this.height / 5;
+  }
+
+  /**
+  * Gets total height of element
+  */
+  this.geItemHeight = () => {
+    return this.height + this.getHookSize() + this.getUpperHookSize();
+  }
 
 } // MovableItem
 
@@ -134,10 +151,10 @@ function Brick(options) {
   MovableItem.call(this, options);
 
   // default values for Brick
-  Object.assign(this,{
+  Object.assign(this, {
     roundRadius: 5,
-  }, 
-  options);
+  },
+    options);
 
 }// Brick
 
@@ -211,40 +228,40 @@ function Hook(options = {}) {
     x: 0,
     y: 0,
     size: 40,
-    lineWidth : 2,
+    lineWidth: 2,
     canvas: undefined,
-    angle :0,
+    angle: 0,
   }, options);
 
 }
 
-  /**
-   * Draws hook
-   */
-  Hook.prototype.draw = function () {
-    let ctx = this.canvas.getContext("2d");
-    ctx.save();
-    contextLayout.rotateCanvas(ctx, this.x, this.y, this.angle);
+/**
+ * Draws hook
+ */
+Hook.prototype.draw = function () {
+  let ctx = this.canvas.getContext("2d");
+  ctx.save();
+  contextLayout.rotateCanvas(ctx, this.x, this.y, this.angle);
 
-    ctx.lineWidth = this.lineWidth; 
-    
-    ctx.beginPath();
-    let hLine = this.size/6;
-    let hookR = this.size/2;
-    ctx.strokeStyle = this.strokeColor;
-    //draw upper line
-    ctx.moveTo(this.x , this.y);
-    ctx.lineTo(this.x, this.y + this.size - 2* (hookR - hLine));
-    ctx.stroke();
-    
-    //draw half circle 
-    ctx.beginPath();
-    ctx.arc(this.x, this.y + hLine + hookR, 
-      hookR - hLine , application.degrToRad(270), application.degrToRad(180));
-    ctx.stroke();
+  ctx.lineWidth = this.lineWidth;
 
-    ctx.restore();
-  } //Hook.prototype.draw
+  ctx.beginPath();
+  let hLine = this.size / 6;
+  let hookR = this.size / 2;
+  ctx.strokeStyle = this.strokeColor;
+  //draw upper line
+  ctx.moveTo(this.x, this.y);
+  ctx.lineTo(this.x, this.y + this.size - 2 * (hookR - hLine));
+  ctx.stroke();
+
+  //draw half circle 
+  ctx.beginPath();
+  ctx.arc(this.x, this.y + hLine + hookR,
+    hookR - hLine, application.degrToRad(270), application.degrToRad(180));
+  ctx.stroke();
+
+  ctx.restore();
+} //Hook.prototype.draw
 
 
 

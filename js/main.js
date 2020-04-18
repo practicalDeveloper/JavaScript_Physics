@@ -2,7 +2,7 @@
 * Methods and properties of the main page
 */
 const applicationRendering = {
-  topics: { forcesAdditionByAngleId: 1, ArchimedesPrincipleId: 2 }, // all data-topic attributes from the HTML menu
+  topics: {  forcesAdditionByAngleId: 2, ArchimedesPrincipleId: 3 }, // all data-topic attributes from the HTML menu
   currentTopic: undefined, // to set current selected topic in the menu
   canvas: appElements.canvas, // main canvas in the application
   context: appElements.context, // main canvas' context in the application
@@ -12,15 +12,16 @@ const applicationRendering = {
   * intitial initialization of the application
   */
   intitialInit: function () {
-    this.currentTopic = applicationRendering.topics.forcesAdditionByAngleId;
+    this.currentTopic = applicationRendering.topics.ArchimedesPrincipleId;
     contextLayout.stretchCanvas(this.canvas, "divCanvas");
 
     dragRendering.canvas = forcesbyAngle.canvas =
-      archimedesPrinciple.canvas = this.canvas;
+       archimedesPrinciple.canvas = this.canvas;
     forcesbyAngle.ctx = archimedesPrinciple.ctx = this.context;
 
+    //forcesAddition.init();
 
-   // forcesbyAngle.init();
+    //archimedesPrinciple.init();
     this.renderMenu();
   }, // intitialInit
 
@@ -112,6 +113,7 @@ const applicationRendering = {
 
   // clears variables in all topics
   clearTopics: function () {
+    dragRendering.dragElements = [];
     forcesbyAngle.empty();
   } // clearTopics
 }; // applicationRendering

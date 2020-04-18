@@ -12,16 +12,13 @@ function SpringDynamometer(options = {}) {
     maxValue: 10,
     backColor: "orange",
     strokeColor: "black",
-    showMinorLines: true, //shows/hides minor lines for ruler
-    showOddMarks: true, //shows/hides odd labels for ruler
     angle: 0, // rotation angle relatively of upper left corner
     value: 0,
     animationStep: undefined
   }, options);
 
-    // function to call during value changing
-    this.valueOnChange = function (value) { }
-
+  // function to call during value changing
+  this.valueOnChange = function (value) { }
 
   // fields and methods of Spring Dynamometer 
   this.fields = {
@@ -29,31 +26,34 @@ function SpringDynamometer(options = {}) {
     ruler: undefined, // canvas drawn ruler
     hook: undefined, // canvas drawn hook
 
+
     // different metrics of Spring Dynamometer 
     getMeasures: function () {
       let springL = this.length / 5; // initial length of spring
       let swingWidth = springL / 30;
       let rulerLength = this.length - springL - swingWidth;
-      let valueRulerLength = rulerLength / this.maxValue;
       let animationStep = (this.animationStep === undefined) ? this.maxValue * 0.018 : this.animationStep;
       let springH = this.height - this.height / 3;
       let holderL = this.length - (springL + swingWidth);
-      let springValueL = springL + this.value * valueRulerLength;
+      let springValueL = springL + this.value * (rulerLength / this.maxValue);
       let initialLeftX = this.startX - springH * Math.sin(application.degrToRad(this.angle)); //x coord on the left side for spring
       let initialLeftY = this.startY + springH * Math.cos(application.degrToRad(this.angle)); //y coord on the left side for spring,
       let hookSize = this.height / 2.5;
+      let hookX = initialLeftX + Math.cos(application.degrToRad(this.angle)) * (springValueL + swingWidth + holderL);
+      let hookY = initialLeftY + Math.sin(application.degrToRad(this.angle)) * (springValueL + swingWidth + holderL);
 
       return {
-        initialSpringL: springL,
-        swingWidth: swingWidth,
-        rulerL: rulerLength,
-        valueRulerL: valueRulerLength,
+        initialSpringL: springL, // initial length of spring
+        swingWidth: swingWidth, // width of each swing of the spring 
+        rulerL: rulerLength, // initial length of the ruler
         animationStep: animationStep,
-        springH: springH,
-        holderL: holderL,
-        springValueL: springValueL,
-        initialLeftX: initialLeftX,
-        initialLeftY: initialLeftY,
+        springH: springH, // height of spring
+        holderL: holderL, // length of the holder for hook
+        springValueL: springValueL,  // length of spring depending on the value
+        initialLeftX: initialLeftX, //x coord on the left side for spring
+        initialLeftY: initialLeftY, //y coord on the left side for spring,
+        hookX: hookX, //x coord of the hook 
+        hookY: hookY, //y coord of the hook 
         hookSize: hookSize
 
       };
@@ -76,7 +76,7 @@ function SpringDynamometer(options = {}) {
         startY: springY,
         canvas: this.canvas,
         radius: this.height / 4,
-        swings: swingsN,
+        swings: swingsN, //number of swings for spring
         length: measures.springValueL,
         swingWidth: measures.swingWidth,
         angle: this.angle
@@ -104,11 +104,31 @@ function SpringDynamometer(options = {}) {
       this.fields.ruler.showMinorLines = this.showMinorLines;
       this.fields.ruler.showOddMarks = this.showOddMarks;
       this.fields.ruler.maxValue = this.maxValue;
-    }// applyRulerStyle
+    } // applyRulerStyle
 
   }
 
   this.fields.init.call(this);
+
+
+  /**
+   * Gets total height of dynamometer with holder and hook
+   */
+  this.getTotalLength = () => {
+    let measures = this.fields.getMeasures.call(this);
+    return (measures.springValueL + measures.swingWidth + measures.holderL + measures.hookSize);
+  }
+
+
+  /**
+ * Gets coordinates of the end of hook on the holder
+ */
+  this.getFinishCoord = () => {
+    let measures = this.fields.getMeasures.call(this);
+    let x = measures.hookX + Math.cos(application.degrToRad(this.angle)) * (measures.hookSize);
+    let y = measures.hookY + Math.sin(application.degrToRad(this.angle)) * (measures.hookSize);
+    return { x: x, y: y };
+  }
 }
 
 SpringDynamometer.prototype = {
@@ -134,7 +154,7 @@ SpringDynamometer.prototype = {
 
     // cargo holder line 
     ctx.beginPath();
-    
+
     let lineY = this.startY + measures.springH;
     let lineX = this.startX + measures.springValueL + measures.swingWidth;
     ctx.moveTo(lineX, lineY);
@@ -143,14 +163,9 @@ SpringDynamometer.prototype = {
     ctx.stroke();
     ctx.restore();
 
-    let hookX = measures.initialLeftX +
-      Math.cos(application.degrToRad(this.angle)) * (measures.springValueL + measures.swingWidth + measures.holderL);
-    let hookY = measures.initialLeftY +
-      Math.sin(application.degrToRad(this.angle)) * (measures.springValueL + measures.swingWidth + measures.holderL);
-
     // hook initialization
-    this.fields.hook.x = hookX;
-    this.fields.hook.y = hookY;
+    this.fields.hook.x = measures.hookX;
+    this.fields.hook.y = measures.hookY;
     this.fields.hook.size = measures.hookSize;
     this.fields.hook.canvas = this.canvas;
     this.fields.hook.angle = this.angle - 90;
@@ -167,10 +182,10 @@ SpringDynamometer.prototype = {
    * sets spring indicator to value without animation
    */
   setStaticValue: function (valuePointer = 0) {
+
     this.value = valuePointer;
     this.valueOnChange(valuePointer);
     this.draw();
-    
   }, // setStaticValue
 
 
