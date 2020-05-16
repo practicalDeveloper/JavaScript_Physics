@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Forces addtion</title>
+    <!-- <link rel="stylesheet" href="../../css/controls.css"> -->
+    <link type="text/css" rel="Stylesheet" href="../../css/variables.css" />
+    <link type="text/css" rel="Stylesheet" href="../../css/controls.css" />
+</head>
+
+<body>
+
+    <div>
+        <label  for="angleRange">Angle: </label>
+        <input type="range" min="0" max="50" value="5" step="0.1" class="slider" id="angleRange">
+        <label></label>
+    </div>
+
+    <div>
+        <button class="button" id="clickIt">Click here2</button>
+        <br>
+        <input name="textbox1" id="textbox1" size="5" type="text" value="0" />
+        <br>
+        <input id="textbox2" size="5" type="text" value="3" />
+        <br>
+        <button id="myBtn">Click here2</button>
+        <br>
+        <button id="myBtn3">Click here3</button>
+
+    </div>
+
+    <script src="../js/framesRendering.js"></script>
+
+    <script type="text/javascript">
+
+        // function to post message to parent from IFrame
+        frameRender.passControlsMessage = function () {
+            let text = document.getElementById('textbox1');
+            let text2 = document.getElementById('textbox2');
+            var pass_data = {
+                'value': text.value,
+                'value2': text2.value,
+                'action': 'do_logout'
+            };
+
+            parent.postMessage(JSON.stringify(pass_data), "*")
+        }
+
+        
+
+
+
+
+
+
+
+
+
+
+        // document.querySelector('button').onclick = function () {
+        //     //passMessage(text.value, text2.value);
+        // };
+
+
+
+
+
+
+
+        // function displayMessage(evt) {
+        //     var message;
+        //     message = "I got " + evt.data + " from " + evt.origin;
+
+
+        //     var pass_data = JSON.parse(event.data);
+
+
+
+        //     pass_data.id.dynam3.maxValue = 11;
+        //     alert(pass_data.id.dynam3.maxValue);
+        //     //appliance.dynam3.getValue(data);
+        //     pass_data.id.dynam3.getValue(145);
+        // }
+
+        // if (window.addEventListener) {
+        //     // For standards-compliant web browsers
+        //     window.addEventListener("message", displayMessage, false);
+        // }
+        // else {
+        //     window.attachEvent("onmessage", displayMessage);
+        // }
+    </script>
+
+</body>
+
+</html>

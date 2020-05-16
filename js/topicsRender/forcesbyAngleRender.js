@@ -245,7 +245,7 @@ const forcesbyAngle = {
  * Function to call when started dragging 
  */
     startedDrawDrag: function (dragElem) {
-        let el = dragRendering.findElem(dragElem.id);
+        let el = dragRendering.findElem(dragElem.id).elem;
         this.vars.startedDragCoord.x = el.x;
         this.vars.startedDragCoord.y = el.y;
     },
@@ -268,7 +268,7 @@ const forcesbyAngle = {
      */
     stoppedDrawDrag: function (dropElem) {
 
-        let el = dragRendering.findElem(dropElem.id);
+        let el = dragRendering.findElem(dropElem.id).elem;
         let setPos = (x, y) => { el.x = x; el.y = y; }
 
         let xDrop = this.getDropPosition().x;
@@ -325,7 +325,9 @@ const forcesbyAngle = {
         this.setDynamValues();
         this.setDraggingFlags();
 
-    },
+        this.passFrameValue();
+
+    }, // stoppedDrawDrag
 
     /**
      * sets dragging mark for bricks
@@ -373,9 +375,9 @@ const forcesbyAngle = {
      */
     receivedMessage: function () {
         // set weights of bricks
-        dragRendering.findElem(this.constants.xBrickName).weight = applicationRendering.topicVariables.xWeight;
-        dragRendering.findElem(this.constants.yBrickName).weight = applicationRendering.topicVariables.yWeight;
-        dragRendering.findElem(this.constants.zBrickName).weight = applicationRendering.topicVariables.zWeight;
+        dragRendering.findElem(this.constants.xBrickName).elem.weight = applicationRendering.topicVariables.xWeight;
+        dragRendering.findElem(this.constants.yBrickName).elem.weight = applicationRendering.topicVariables.yWeight;
+        dragRendering.findElem(this.constants.zBrickName).elem.weight = applicationRendering.topicVariables.zWeight;
         this.dynamometers.dynamLeft.maxValue = applicationRendering.topicVariables.maxValue;
         this.dynamometers.dynamRight.maxValue = applicationRendering.topicVariables.maxValue;
         this.clear();
@@ -389,14 +391,23 @@ const forcesbyAngle = {
         if (dragRendering.dragElements.length > 0) {
             dragRendering.dragElements.forEach(element => { element.isDraggable = true; });
             let setPos = (el, x, y) => { el.x = x; el.y = y; }
-            setPos(dragRendering.findElem(this.constants.xBrickName), this.settings.xCargoCoord.x, this.settings.xCargoCoord.y);
-            setPos(dragRendering.findElem(this.constants.yBrickName), this.settings.yCargoCoord.x, this.settings.yCargoCoord.y);
-            setPos(dragRendering.findElem(this.constants.zBrickName), this.settings.zCargoCoord.x, this.settings.zCargoCoord.y);
+            setPos(dragRendering.findElem(this.constants.xBrickName).elem, this.settings.xCargoCoord.x, this.settings.xCargoCoord.y);
+            setPos(dragRendering.findElem(this.constants.yBrickName).elem, this.settings.yCargoCoord.x, this.settings.yCargoCoord.y);
+            setPos(dragRendering.findElem(this.constants.zBrickName).elem, this.settings.zCargoCoord.x, this.settings.zCargoCoord.y);
         }
 
         if (this.dynamometers !== undefined) {
             this.dynamometers.dynamLeft.setStaticValue(0);
             this.dynamometers.dynamRight.setStaticValue(0);
+        }
+
+        this.passFrameValue();
+    },
+    
+    passFrameValue: function () {
+        if (this.getForce() != undefined){
+        let pass_data = { 'force': application.roundTwoDigits(this.getForce()) };
+        applicationRendering.sendFrameMessage(pass_data);
         }
     },
 
@@ -418,7 +429,9 @@ const forcesbyAngle = {
      * Calculates force applied by angle and resultant force
      */
     getForce: function () {
-        let angle = applicationRendering.topicVariables.angle;
+        let angle = applicationRendering.topicVariables != undefined ? 
+        applicationRendering.topicVariables.angle : 0;
+        
         let force = this.vars.totalWeight / (2 * Math.cos(application.degrToRad(angle / 2)));
         return (application.kgToNewton(force));
     },

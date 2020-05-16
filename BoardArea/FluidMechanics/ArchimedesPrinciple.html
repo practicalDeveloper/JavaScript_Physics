@@ -10,18 +10,34 @@
 
 <body>
 
-    <!-- X weight input -->
+    <!-- Body weight input -->
     <div class="content">
-        <div class="contentTitle">Cargo weight (kg): </div>
+        <div class="contentTitle">Body weight (kg): </div>
         <div class="content">
             <!-- Weight slider -->
-            <input type="range" min="0.1" max="2" value="0.1" step="0.1" class="slider" id="weightRange">
+            <input type="range" min="1" max="100" value="50" step="1" class="slider" id="weightRange">
             <!-- Value label-->
             <div class="text"> </div>
         </div>
-
-        
     </div>
+
+    <!--Liquid density -->
+    <div class="content">
+        <div class="contentTitle">Density of liquid (kg/m<sup>3</sup>): </div>
+        <div class="content">
+            <input id="liquidDensityTextBox" size="5" type="text" value="997" />
+        </div>
+    </div>
+
+
+    <!--Body density -->
+    <div class="content">
+        <div class="contentTitle">Density of body (kg/m<sup>3</sup>): </div>
+        <div class="content">
+            <input id="bodyDensityTextBox" size="5" type="text" value="1500" />
+        </div>
+    </div>
+
 
 
     <!--Max dynam. value -->
@@ -29,16 +45,42 @@
         <div class="contentTitle">Max value (N): </div>
         <div class="content">
             <!-- Max dynam. value slider -->
-            <input type="range" min="5" max="20" value="15" step="1" class="slider" id="maxValueRange">
+            <input type="range" min="5" max="1000" value="600" step="1" class="slider" id="maxValueRange">
             <!-- Value label-->
-            <div class="text"> </div>      
+            <div class="text"> </div>
         </div>
-
-        
     </div>
 
-    
+
+
     <br>
+    <!--Equation of body volume-->
+    <div class="content">
+        <span>V<sub>body</sub> = m / &#961; <sub>body</sub> = <span id="volumeLabel"> 0 </span>
+    </div>
+
+    <!--Equation of buyonant force-->
+    <div class="content">
+        <span>F<sub>buyonant</sub> = &#961; <sub>liquid</sub> * g * V<sub>body</sub>= <span id="forceLabel"> 0 </span>
+        </span>
+    </div>
+
+    <!--Gravity force-->
+    <div class="content">
+        <span>F<sub>gravity</sub> = <span id="gravityLabel"> 0 </span> </span>
+    </div>
+
+
+    <br>
+
+    <!--Condition-->
+    <div class="content">
+        <span id="conditionLabel"> </span>
+    </div>
+
+
+    <br>
+
 
     <script src="../js/framesRendering.js"></script>
     <script src="../../js/constants.js"></script>
@@ -51,16 +93,40 @@
 
             let w = document.getElementById('weightRange').value;
             let maxValue = document.getElementById("maxValueRange").value;
+            let liquidDensity = document.getElementById("liquidDensityTextBox").value;
+            let bodyDensity = document.getElementById("bodyDensityTextBox").value;
 
-            if (application.isNumber(w)) {
+            if (application.isNumber(liquidDensity) && application.isNumber(bodyDensity)) {
                 let pass_data = {
                     'weight': w,
                     'maxValue': maxValue,
+                    'liquidDensity': liquidDensity,
+                    'bodyDensity': bodyDensity
                 };
 
                 parent.postMessage(JSON.stringify(pass_data), "*");
             }
         } // passControlsMessage
+
+
+        frameRender.receiveData = function (data) {
+            let vars = JSON.parse(data);
+            document.getElementById('forceLabel').innerHTML = vars.buyonantForce;
+            document.getElementById('volumeLabel').innerHTML = vars.volume;
+            document.getElementById('gravityLabel').innerHTML = vars.gravity;
+
+            if (vars.gravity > 0) {
+                if (vars.buyonantForce > vars.gravity)
+                    document.getElementById('conditionLabel').innerHTML = "The body is emerging";
+                if (vars.buyonantForce < vars.gravity)
+                    document.getElementById('conditionLabel').innerHTML = "The body is sinking";
+                if (vars.buyonantForce == vars.gravity)
+                    document.getElementById('conditionLabel').innerHTML = "The body is floating";
+            }
+            else{
+                document.getElementById('conditionLabel').innerHTML = "";
+            }
+        }
 
     </script>
 

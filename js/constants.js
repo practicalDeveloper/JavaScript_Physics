@@ -6,8 +6,16 @@ const application = {
     degrToRad: (degrees) => (Math.PI / 180) * degrees,
     isUndefined: (param) => typeof (param) === 'undefined',
     roundTwoDigits: (param) => (Math.round(param * 100) / 100),
-    kgToNewton: (kg) =>  kg * 9.8,
-    
+    kgToNewton: (kg) =>  kg * 9.81,
+    timeout : ms => new Promise(resolve => setTimeout(resolve, ms)),
+    timeoutCancellable :  ms => {
+        let timer = 0;
+        const promise = new Promise((resolve) => {
+            timer = setTimeout(resolve, ms);
+        });
+        return { promise : promise, timer : timer };
+    },
+
     /**
     * Gets value of global CSS variable
     * @param {string} varName Variable name in CSS file 
@@ -172,7 +180,7 @@ const dragRendering = {
     * Searches for an dragging element by id
     */
     findElem: function (id) {
-        return this.dragElements.find(el => el.id === id).elem;
+        return this.dragElements.find(el => el.id === id);
     },
 
 

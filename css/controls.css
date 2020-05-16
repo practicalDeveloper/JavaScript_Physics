@@ -53,6 +53,8 @@ select {
   cursor: pointer;
 }
 
+
+
 .button:active {
   background-color: var(--level4-color-over);
 }
@@ -72,15 +74,16 @@ select {
 
 /* Labels styles  */
 .text,
+.content,
 .contentTitle {
   color: white;
-  font-size: 20px;
+  font-size: 18px;
 }
+
 
 label {
   vertical-align: middle;
   display: inline-block;
   color: white;
   font-size: 20px;
-  /* margin-bottom:2em;  */
 }

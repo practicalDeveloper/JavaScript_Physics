@@ -53,6 +53,12 @@
         </div>
     </div>
 
+    <br>
+    <!--Forces equation-->
+    <div class="content">
+        <span>F<sub>1</sub> = F<sub>2</sub>  = F<sub>resultant</sub> / 2 * cos(&#945; / 2) = <span id="forceLabel"> 0 </span> </span>
+    </div>
+
     <!-- <button class="button" id="clickIt" onchange="frameRender.passControlsMessage();">Click here2</button> -->
 
     <script src="../js/framesRendering.js"></script>
@@ -83,6 +89,12 @@
                 parent.postMessage(JSON.stringify(pass_data), "*");
             }
         } // passControlsMessage
+
+        frameRender.receiveData = function (data) {
+            let vars = JSON.parse(data);
+            //alert(vars.force);
+            document.getElementById('forceLabel').innerHTML = vars.force;
+        }
 
     </script>
 

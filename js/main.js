@@ -12,45 +12,26 @@ const applicationRendering = {
   * intitial initialization of the application
   */
   intitialInit: function () {
-    this.currentTopic = applicationRendering.topics.ArchimedesPrincipleId;
+    this.currentTopic = applicationRendering.topics.forcesAdditionByAngleId;
     contextLayout.stretchCanvas(this.canvas, "divCanvas");
 
     dragRendering.canvas = forcesbyAngle.canvas =
-       archimedesPrinciple.canvas = this.canvas;
+      forcesAddition.canvas = archimedesPrinciple.canvas = this.canvas;
     forcesbyAngle.ctx = archimedesPrinciple.ctx = this.context;
 
-    //forcesAddition.init();
+   // forcesAddition.init();
 
-    //archimedesPrinciple.init();
+    //forcesbyAngle.init();
     this.renderMenu();
   }, // intitialInit
 
-  /**
-  * performs actions for selected topic
-  */
-  runExperiment: function () {
-    
-    switch (applicationRendering.currentTopic) {
-      case this.topics.forcesAdditionByAngleId:
-        // forcesbyAngle.dynamometers.dynamLeft.setValue(
-        //   this.topicVariables.xWeight
-        // );
-        break;
-      case this.topics.ArchimedesPrincipleId:
-        //forcesbyAngle.dynamometers.dynamLeft.setValue(
-        //  this.topicVariables.xWeight
-        // );
-        break;
-      default:
-        alert("No values");
-    }
-  }, // runExperiment
 
   /**
 * performs actions for selected topic
 */
   receiveData: function (data) {
     switch (applicationRendering.currentTopic) {
+
       case this.topics.forcesAdditionByAngleId:
         forcesbyAngle.receivedMessage();
         break;
@@ -78,6 +59,7 @@ const applicationRendering = {
         for (let elementDiv of divElements) {
           elementDiv.onclick = function () {
             let header = document.getElementById("ApplicationHeader");
+            
             //applies title text
             header.innerText = elementDiv.innerText;
             //applies title color
@@ -90,6 +72,7 @@ const applicationRendering = {
             applicationRendering.currentTopic = Number(
               elementDiv.dataset.topic
             );
+
             contextLayout.clearCanvas(applicationRendering.canvas);
             applicationRendering.clearTopics();
 
@@ -97,6 +80,7 @@ const applicationRendering = {
             switch (applicationRendering.currentTopic) {
               case applicationRendering.topics.forcesAdditionByAngleId:
                 forcesbyAngle.init();
+
                 break;
               case applicationRendering.topics.ArchimedesPrincipleId:
                 archimedesPrinciple.init();
@@ -115,7 +99,17 @@ const applicationRendering = {
   clearTopics: function () {
     dragRendering.dragElements = [];
     forcesbyAngle.empty();
-  } // clearTopics
+    forcesAddition.empty();
+  }, // clearTopics
+
+  /**
+   * Passes message to the IFrame
+   */
+  sendFrameMessage: function (passData) {
+    let frame = window.frames.BoardFrame;
+    frame.postMessage(JSON.stringify(passData), "*");
+  }, // clearTopics
+
 }; // applicationRendering
 
 applicationRendering.intitialInit();
@@ -140,6 +134,8 @@ appElements.canvas.onmouseup = function (e) {
 appElements.canvas.onmousemove = function (e) {
   dragRendering.canvasMouseMove(e);
 };
+
+
 
 // document.getElementById("clickIt").onclick = function () {
 //   applicationRendering.runExperiment();

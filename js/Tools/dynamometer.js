@@ -217,8 +217,6 @@ Dynamometer.prototype = {
     if (this.value > this.maxValue) { currentValue = this.maxValue; }
     if (this.value < -this.maxValue) { currentValue = -this.maxValue; }
 
-    const timeout = ms => new Promise(resolve => setTimeout(resolve, ms));
-
     // recursion function to draw value pointer during setTimeout
     async function tick() {
       face();
@@ -231,7 +229,7 @@ Dynamometer.prototype = {
       async function setTimer(condition) {
         if (condition) {
           value(currentValue);
-          await timeout(1);
+          await application.timeout(1);
           return await tick();
         }
         // stops timer
