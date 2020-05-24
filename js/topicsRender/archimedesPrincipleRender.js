@@ -52,7 +52,7 @@ const archimedesPrinciple = {
         this.settings.bigLiquidBoxCoord.x = boxDisplacement;
         this.settings.bigLiquidBoxCoord.y = this.canvas.clientHeight - boxDisplacement - this.settings.bigLiquidBoxH;
 
-        this.settings.dynamLength = this.canvas.clientHeight / 2.5;
+        this.settings.dynamLength = this.canvas.clientHeight / 2;
         this.settings.liquidLevelH = this.settings.bigLiquidBoxH / 10;
     },
 
@@ -283,7 +283,7 @@ const archimedesPrinciple = {
      * Initial placement of canvas' elements
      */
     initRender: function () {
-        var springDynamometer = new SpringDynamometer({
+        let springDynamometer = new SpringDynamometer({
             startX: this.constants.dynamCoord.x,
             startY: this.constants.dynamCoord.y,
             canvas: this.canvas,
@@ -346,25 +346,31 @@ const archimedesPrinciple = {
     */
     receivedMessage: async function () {
         // set weights of bricks
-        this.dynamometers.springDynamometer.maxValue = applicationRendering.topicVariables.maxValue;
-        this.settings.cargoSize = (applicationRendering.topicVariables.weight * 0.2) + this.constants.minCargoSize;
-        this.getBrick().x = this.settings.cargoCoord.x;
-        this.getBrick().y = this.settings.cargoCoord.y;
-        this.getBrick().height = this.getBrick().width = this.settings.cargoSize;
-        this.moveDynamometer(this.constants.dynamCoord.y);
-        this.clear();
-        archimedesPrinciple.cancelTimer = true;
-
-        dragRendering.dragElements[0].isDraggable = true;
-        dragRendering.redraw();
+        if( this.dynamometers != undefined)
+        {
+            this.dynamometers.springDynamometer.maxValue = applicationRendering.topicVariables.maxValue;
+            this.settings.cargoSize = (applicationRendering.topicVariables.weight * 0.2) + this.constants.minCargoSize;
+            this.getBrick().x = this.settings.cargoCoord.x;
+            this.getBrick().y = this.settings.cargoCoord.y;
+            this.getBrick().height = this.getBrick().width = this.settings.cargoSize;
+            this.moveDynamometer(this.constants.dynamCoord.y);
+            this.clear();
+        
+            archimedesPrinciple.cancelTimer = true;
+        
+            dragRendering.dragElements[0].isDraggable = true;
+            dragRendering.redraw();
+        }
     },
 
     /**
      * Calculates force (in Newtons) by weight
      */
     getForce: function () {
-        let weight = applicationRendering.topicVariables.weight;
-        return (application.kgToNewton(weight));
+        if(applicationRendering.topicVariables != undefined){
+            let weight = applicationRendering.topicVariables.weight;
+            return (application.kgToNewton(weight));
+        }
     },
 
 

@@ -1,12 +1,8 @@
 :root {
-    --level1-color: #6aa63b;
-    --level1-color-sub:#ced174;
-    --level1-color-sub-over:#d9dcb0;
-
-    --level2-color: #f29e05;
-    --level3-color: #d52100;
-    --level4-color: #0292c0;
-    --level4-color-over: #58a5bd;
-    --level5-color: #5122b4;
-    --board-color: rgb(2, 121, 39);
-  }
+  --level1-color: #6aa63b;
+  --level2-color: #f29e05;
+  --level3-color: #d52100;
+  --level5-color: #0292c0;
+  --level4-color: #5122b4;
+  --board-color: rgb(2, 121, 39);
+}

@@ -50,18 +50,22 @@
 }
 
 /* Level 4 background styles */
-#level4 {
-  background-color: #0292c0;
+#level5 {
+  background-color: var(--level5-color);
 }
 
-#level4 a:hover,
-#level4 a:focus,
-#level4 a:active {
-  background: #58a5bd;
+#level5 a:hover,
+#level5 a:focus,
+#level5 a:active {
+  background: #a4c9d5;
+}
+
+#level5 a {
+  background: #82b8c9;
 }
 
 /* Level 5 background styles */
-#level5 {
+#level4 {
   background-color: #5122b4;
 }
 

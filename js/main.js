@@ -2,7 +2,7 @@
 * Methods and properties of the main page
 */
 const applicationRendering = {
-  topics: {  forcesAdditionByAngleId: 2, ArchimedesPrincipleId: 3 }, // all data-topic attributes from the HTML menu
+  topics: {  forcesAdditionByAngleId: 2, ArchimedesPrincipleId: 3 , AppliancesId: 5}, // all data-topic attributes from the HTML menu
   currentTopic: undefined, // to set current selected topic in the menu
   canvas: appElements.canvas, // main canvas in the application
   context: appElements.context, // main canvas' context in the application
@@ -16,8 +16,8 @@ const applicationRendering = {
     contextLayout.stretchCanvas(this.canvas, "divCanvas");
 
     dragRendering.canvas = forcesbyAngle.canvas =
-      forcesAddition.canvas = archimedesPrinciple.canvas = this.canvas;
-    forcesbyAngle.ctx = archimedesPrinciple.ctx = this.context;
+      forcesAddition.canvas = archimedesPrinciple.canvas = appliances.canvas = this.canvas;
+    forcesbyAngle.ctx = archimedesPrinciple.ctx = appliances.ctx = this.context;
 
    // forcesAddition.init();
 
@@ -85,6 +85,9 @@ const applicationRendering = {
               case applicationRendering.topics.ArchimedesPrincipleId:
                 archimedesPrinciple.init();
                 break;
+                case applicationRendering.topics.AppliancesId:
+                  appliances.init();
+                  break;
               default:
                 alert("No values");
             } // switch
