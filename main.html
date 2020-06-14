@@ -41,10 +41,10 @@
 
 
                     <div class="menu-item" id="level1">
-                        <p class="firstLevelMenu">Forces</p>
+                        <p class="firstLevelMenu">Dynamics</p>
                         <div hidden class="menu-sub-item">
-                            <div data-topic="2">
-                                <a href="./BoardArea/Forces/ForcesByAngle.html">Forces Addition by Angle</a>
+                            <div data-topic="1">
+                                <a href="./BoardArea/Forces/ForcesByAngle.html">Addition of forces by an angle</a>
                             </div>
 
 
@@ -52,17 +52,27 @@
                     </div>
 
                     <div class="menu-item" id="level2">
-                        <p class="firstLevelMenu">Fluid mechanics</p>
+                        <p class="firstLevelMenu">Pressure of liquids</p>
                         <div hidden class="menu-sub-item">
-                            <div data-topic="3"><a href="./BoardArea/FluidMechanics/ArchimedesPrinciple.html">Archimedes’ Principle</a> </div>
+                            <div data-topic="2"><a href="./BoardArea/FluidMechanics/ArchimedesPrinciple.html">Archimedes’ Principle</a> </div>
                         </div>
                     </div>
 
 
-                    <div class="menu-item" id="level5">
+                    <div class="menu-item" id="level3">
+                        <p class="firstLevelMenu">Mechanical oscillations</p>
+                        <div hidden class="menu-sub-item">
+                            <div data-topic="3"><a href="./BoardArea/MechanicalOscillations/Pendulum.html">Mathematical pendulum</a> </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="menu-item" id="level4">
                         <p class="firstLevelMenu">Appliances</p>
                         <div hidden class="menu-sub-item">
-                            <div data-topic="5"><a href="./BoardArea/Appliances/Tools.html">Physical tools</a> </div>
+                            <div data-topic="4"><a href="./BoardArea/Appliances/Tools.html">Physical tools</a> </div>
                         </div>
                     </div>
 
@@ -75,12 +85,9 @@
         <!-- Controls area -->
         <div class="sidebarArea" id="divControls">
             <div id="divControlsInner">
-                <iframe src="" name="BoardFrame" id="BoardFrame" width="100%"
+                <iframe  name="BoardFrame" id="BoardFrame" width="100%"
                     height="100%" style="border:0">
                 </iframe>
-                <!-- <div>
-                    <button id="clickIt">Run experiment</button>
-                </div> -->
             </div>
         </div>
 
@@ -97,10 +104,11 @@
     <script src="./js/Tools/stageElements.js"></script>
     
 
-    <script src="./js/constants.js"></script>
-    <script src="./js/topicsRender/forcesAdditionRender.js"></script>
+    <script src="./js/appMethods.js"></script>
+    <script src="./js/dragging.js"></script>
     <script src="./js/topicsRender/forcesbyAngleRender.js"></script>
     <script src="./js/topicsRender/archimedesPrincipleRender.js"></script>
+    <script src="./js/topicsRender/pendulumRender.js"></script>
     <script src="./js/topicsRender/appliancesRender.js"></script>
     <script src="./js/main.js"></script>
 

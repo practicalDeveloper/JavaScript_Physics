@@ -21,7 +21,16 @@ function Ruler(options = {}) {
 
 
 Ruler.prototype.draw = function () {
+
   let ctx = this.canvas.getContext("2d");
+  let endX = this.startX + this.length;
+  let divisor = 10;
+  let step = (endX - this.startX) / (this.maxValue * divisor);
+  let shortLineHeight = this.height / 6;
+  let lineHeight = shortLineHeight;
+  let font = (step + 10) + "px Times New Roman";
+  let stepHideCondition = step > 2;
+
   ctx.save();
   contextLayout.rotateCanvas(ctx, this.startX, this.startY, this.angle);
 
@@ -34,65 +43,72 @@ Ruler.prototype.draw = function () {
     ctx.stroke();
   }
 
-  let endX = this.startX + this.length;
 
   ctx.beginPath();
   ctx.strokeStyle = this.strokeColor;
   ctx.fillStyle = this.strokeColor;
   ctx.lineWidth = 1;
 
-  let step = (endX - this.startX) / (this.maxValue * 10);
-  let lineHeight = this.height / 6;
 
-
-  let font = (step + 10) + "px Times New Roman";
-
-  for (let x = 1; x <= (this.maxValue * 10) - 1; x++) {
+  for (let x = 1; x <= (this.maxValue * divisor) - 1; x++) {
     let xCoord = this.startX + x * step;
 
-    if (x % 10 == 0)
+    if (x % divisor == 0)
     //long lines
     {
       lineHeight = this.height / 3;
-      let currentValue = x / 10;
+      let currentValue = x / divisor;
       let metrics = ctx.measureText(currentValue); // width and height of text
 
       // draws labels with text, depending on the maximum value
       let drawCondition = (intervalStart, intervalEnd, conditionNumber) => {
         if (this.maxValue > intervalStart && this.maxValue <= intervalEnd) {
+          // big interval drawing condition
           if (currentValue % conditionNumber == 0) {
             // Don't draw, if coord. of text is outside of control
-            if (xCoord + metrics.width / 2 < endX)
+            if (xCoord + metrics.width / 2 < endX) {
               contextLayout.drawCenterText(ctx, font, currentValue, xCoord, this.startY + this.height / 2);
+            }
           }
           else {
-            lineHeight = 0;
+            // small interval drawing condition
+            if (currentValue % (Math.round(conditionNumber / divisor)) == 0) {
+              lineHeight = shortLineHeight;
+            }
+            else {
+              lineHeight = 0;
+            }
           }
+
         }
       }
 
-      drawCondition(30, 200, 10);
+      let conditionNumber = stepHideCondition ? 1 : divisor;
+      let interval = 100;
 
-      for(i=1; i< 10; i++)
-      {
-        let firstInterval = i * 200;
-        let secondInterval = (i * 200) + 200;
-        let condition = i * 20;
-        drawCondition(firstInterval, secondInterval, condition);
+      // 10 -100 interval
+      drawCondition(divisor, interval, conditionNumber);
+
+      // 100 -1000 interval
+      for (i = 1; i < divisor; i++) {
+        let beginInterval = i * interval;
+        let endInterval = (i * interval) + interval;
+        let condition = i * conditionNumber;
+        drawCondition(beginInterval, endInterval, condition);
       }
 
 
-      if (this.maxValue < 30) {
-        contextLayout.drawCenterText(ctx, font, x / 10, xCoord, this.startY + this.height / 2);
+      if (this.maxValue <= divisor) {
+        contextLayout.drawCenterText(ctx, font, x / divisor, xCoord, this.startY + this.height / 2);
       }
-
     }
 
     // short lines
     else {
-      lineHeight = step > 2 ? this.height / 6 : 0;
+      lineHeight = stepHideCondition ? shortLineHeight : 0;
     }
 
+    // ruler lines
     ctx.moveTo(xCoord, this.startY);
     ctx.lineTo(xCoord, this.startY + lineHeight);
 
@@ -102,59 +118,9 @@ Ruler.prototype.draw = function () {
     }
   }
   ctx.stroke();
-
-
   ctx.restore();
 
 }
 
-
-
-Ruler.prototype.draw2 = function () {
-  let ctx = this.canvas.getContext("2d");
-  ctx.save();
-  contextLayout.rotateCanvas(ctx, this.startX, this.startY, this.angle);
-
-
-  if (this.showBackground) {
-    ctx.beginPath();
-    ctx.fillStyle = this.backColor;
-    ctx.fillRect(this.startX, this.startY, this.length, this.height);
-    ctx.rect(this.startX, this.startY, this.length, this.height);
-    ctx.stroke();
-  }
-
-
-  let endX = this.startX + this.length;
-  let font = this.height * 0.2 + "px Times New Roman";
-  ctx.beginPath();
-  ctx.fillStyle = ctx.strokeStyle = this.strokeColor;
-  ctx.lineWidth = 1;
-
-  let step = (endX - this.startX) / (this.maxValue * 10);
-  let lineHeight = this.height / 6;
-
-
-  for (let x = 1; x <= (this.maxValue * 10) - 1; x++) {
-    let xCoord = this.startX + x * step;
-    if (x % 10 == 0) {
-      lineHeight = this.height / 1.8;
-      contextLayout.drawCenterText(ctx, font,
-        x / 10, xCoord, (this.startY + this.height) - (this.height - lineHeight) / 2);
-    }
-    else {
-      lineHeight = this.height / 3;
-    }
-
-    ctx.moveTo(xCoord, this.startY);
-    ctx.lineTo(xCoord, this.startY + lineHeight);
-
-  }
-  ctx.stroke();
-
-
-  ctx.restore();
-
-}
 
 

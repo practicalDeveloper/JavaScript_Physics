@@ -59,7 +59,8 @@ function MovableItem(options = {}) {
       ctx.lineTo(this.x + this.width / 2, this.y - hLine);
       ctx.stroke();
 
-      var hook = new Hook({ x: xCoord, y: yCoord, size: this.getHookSize(), canvas: appElements.canvas });
+      var hook = new Hook({ x: xCoord, y: yCoord, size: this.getHookSize() });
+      hook.canvas = this.canvas;
       hook.draw();
     }, // drawHook
 

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Archimede's principle</title>
+    <link type="text/css" rel="Stylesheet" href="../../css/variables.css" />
+    <link rel="stylesheet" href="../../css/controls.css">
+</head>
+
+<body>
+
+    <script src="../js/framesRendering.js"></script>
+    <script src="../../js/appMethods.js"></script>
+
+
+    
+    <!-- Pendulum length input -->
+    <div class="content">
+        <div class="contentTitle">Pendulum length (m): </div>
+        <div class="content">
+            <!-- Length slider -->
+            <input type="range" min="1" max="10" value="3" step="0.1" class="slider" id="lengthRange">
+            <!-- Value label-->
+            <div class="text"> </div>
+        </div>
+    </div>
+
+    <!-- Pendulum start angle -->
+    <div class="content">
+        <div class="contentTitle">Start angle (degr): </div>
+        <div class="content">
+            <!-- Angle slider -->
+            <input type="range" min="0" max="360" value="30" step="1" class="slider" id="angleRange">
+            <!-- Value label-->
+            <div class="text"> </div>
+        </div>
+    </div>
+
+    <!-- Pendulum length input second -->
+    <div class="content">
+        <div class="contentTitle">Second pendulum length (m): </div>
+        <div class="content">
+            <!-- Length slider -->
+            <input type="range" min="1" max="10" value="7" step="0.1" class="slider" id="lengthRangeSecond">
+            <!-- Value label-->
+            <div class="text"> </div>
+        </div>
+    </div>
+
+
+    <!-- Pendulum start angle second -->
+    <div class="content">
+        <div class="contentTitle">Second start angle (degr): </div>
+        <div class="content">
+            <!-- Angle slider -->
+            <input type="range" min="0" max="360" value="45" step="1" class="slider" id="angleRangeSecond">
+            <!-- Value label-->
+            <div class="text"> </div>
+        </div>
+    </div>
+
+
+    <br>
+    <!-- Equation of the first  pendulum period-->
+    <div class="content">
+        <span>T<sub>1</sub> = 2 * &pi; * &radic;<span style="text-decoration:overline;"> l / g </span> = <span
+                id="firstPeriodLabel"> 0 </span> (s)
+        </span>
+    </div>
+
+    <!--Equation of the first frequency -->
+    <div class="content">
+        <span>V<sub>1</sub> = 1/ T<sub>1</sub> = <span id="firstFrequencyLabel"> 0 </span> (Hz)
+        </span>
+    </div>
+
+    <!-- Equation of the second  pendulum period-->
+    <div class="content">
+        <span>T<sub>2</sub> = 2 * &pi; * &radic;<span style="text-decoration:overline;"> l / g </span> = <span
+                id="secondPeriodLabel"> 0 </span> (s)
+        </span>
+    </div>
+
+    <!--Equation of the first frequency -->
+    <div class="content">
+        <span>V<sub>2</sub> = 1/ T<sub>2</sub> = <span id="secondFrequencyLabel"> 0 </span> (Hz)
+        </span>
+    </div>
+
+    <br>
+
+    <!--Condition-->
+    <div class="content">
+        <span id="conditionLabel"> </span>
+    </div>
+
+
+    <br>
+
+
+
+    <script type="text/javascript">
+
+        // function to post message to parent from IFrame with data
+        frameRender.passControlsMessage = function () {
+
+            let l = document.getElementById('lengthRange').value;
+            let l2 = document.getElementById('lengthRangeSecond').value;
+            let firstPeriod = application.roundTwoDigits(2 * 3.14 * Math.sqrt(l / 9.81));
+            let secondPeriod = application.roundTwoDigits(2 * 3.14 * Math.sqrt(l2 / 9.81));
+            let angle = document.getElementById('angleRange').value;
+            let secondAngle = document.getElementById('angleRangeSecond').value;
+
+            document.getElementById('firstPeriodLabel').innerHTML = firstPeriod;
+            document.getElementById('secondPeriodLabel').innerHTML = secondPeriod;
+            document.getElementById('firstFrequencyLabel').innerHTML = application.roundTwoDigits(1 / firstPeriod);
+            document.getElementById('secondFrequencyLabel').innerHTML = application.roundTwoDigits(1 / secondPeriod);
+
+            let pass_data = {
+                'firstLength': l,
+                'secondLength': l2,
+                'firstPeriod': firstPeriod,
+                'secondPeriod': secondPeriod,
+                'firstAngle': angle,
+                'secondAngle': secondAngle,
+
+            };
+
+            parent.postMessage(JSON.stringify(pass_data), "*");
+
+        } // passControlsMessage
+
+
+
+
+    </script>
+
+</body>
+
+</html>

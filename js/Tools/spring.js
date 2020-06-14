@@ -11,9 +11,9 @@ function Spring(options = {}) {
     startY: 0,
     length: 100,
     radius: 50,
-    swings: 5,
+    swings: 5, // number of swings
     angle: 0, // rotation angle relatively of upper left corner
-    swingWidth: 5
+    swingWidth: 5 // width of each swing
   }, options);
 }
 

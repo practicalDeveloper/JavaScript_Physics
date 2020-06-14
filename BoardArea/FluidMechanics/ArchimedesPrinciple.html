@@ -10,6 +10,9 @@
 
 <body>
 
+    <script src="../js/framesRendering.js"></script>
+    <script src="../../js/appMethods.js"></script>
+
     <!-- Body weight input -->
     <div class="content">
         <div class="contentTitle">Body weight (kg): </div>
@@ -56,18 +59,19 @@
     <br>
     <!--Equation of body volume-->
     <div class="content">
-        <span>V<sub>body</sub> = m / &#961; <sub>body</sub> = <span id="volumeLabel"> 0 </span>
+        <span>V<sub>body</sub> = m / &#961; <sub>body</sub> = <span id="volumeLabel"> 0 </span> (m<sup>3</sup>)
+        </span>
     </div>
 
     <!--Equation of buyonant force-->
     <div class="content">
-        <span>F<sub>buyonant</sub> = &#961; <sub>liquid</sub> * g * V<sub>body</sub>= <span id="forceLabel"> 0 </span>
+        <span>F<sub>buyonant</sub> = &#961; <sub>liquid</sub> * g * V<sub>body</sub>= <span id="forceLabel"> 0 </span> (N)
         </span>
     </div>
 
     <!--Gravity force-->
     <div class="content">
-        <span>F<sub>gravity</sub> = <span id="gravityLabel"> 0 </span> </span>
+        <span>F<sub>gravity</sub> = <span id="gravityLabel"> 0 </span> (N) </span> 
     </div>
 
 
@@ -82,8 +86,6 @@
     <br>
 
 
-    <script src="../js/framesRendering.js"></script>
-    <script src="../../js/constants.js"></script>
 
 
     <script type="text/javascript">

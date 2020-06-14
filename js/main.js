@@ -2,7 +2,8 @@
 * Methods and properties of the main page
 */
 const applicationRendering = {
-  topics: {  forcesAdditionByAngleId: 2, ArchimedesPrincipleId: 3 , AppliancesId: 5}, // all data-topic attributes from the HTML menu
+  topics: {  forcesAdditionByAngleId: 1, ArchimedesPrincipleId: 2 , 
+    pendulumDemoId : 3, AppliancesDemoId: 4}, // all data-topic attributes from the HTML menu
   currentTopic: undefined, // to set current selected topic in the menu
   canvas: appElements.canvas, // main canvas in the application
   context: appElements.context, // main canvas' context in the application
@@ -12,16 +13,14 @@ const applicationRendering = {
   * intitial initialization of the application
   */
   intitialInit: function () {
-    this.currentTopic = applicationRendering.topics.forcesAdditionByAngleId;
+    //this.currentTopic = applicationRendering.topics.forcesAdditionByAngleId;
     contextLayout.stretchCanvas(this.canvas, "divCanvas");
 
-    dragRendering.canvas = forcesbyAngle.canvas =
-      forcesAddition.canvas = archimedesPrinciple.canvas = appliances.canvas = this.canvas;
-    forcesbyAngle.ctx = archimedesPrinciple.ctx = appliances.ctx = this.context;
+    dragRendering.canvas = forcesbyAngleDemo.canvas =
+    archimedesPrincipleDemo.canvas = pendulumDemo.canvas = appliancesDemo.canvas = this.canvas;
+       forcesbyAngleDemo.ctx = archimedesPrincipleDemo.ctx = pendulumDemo.ctx = appliancesDemo.ctx = this.context;
+    //forcesbyAngleDemo.init();
 
-   // forcesAddition.init();
-
-    //forcesbyAngle.init();
     this.renderMenu();
   }, // intitialInit
 
@@ -31,15 +30,17 @@ const applicationRendering = {
 */
   receiveData: function (data) {
     switch (applicationRendering.currentTopic) {
-
       case this.topics.forcesAdditionByAngleId:
-        forcesbyAngle.receivedMessage();
+        forcesbyAngleDemo.receivedMessage();
         break;
       case this.topics.ArchimedesPrincipleId:
-        archimedesPrinciple.receivedMessage();
+        archimedesPrincipleDemo.receivedMessage();
         break;
+        case this.topics.pendulumDemoId:
+          pendulumDemo.receivedMessage();
+          break;
       default:
-        alert("No values");
+        alert("No data");
     }
   }, // receiveData
 
@@ -59,7 +60,6 @@ const applicationRendering = {
         for (let elementDiv of divElements) {
           elementDiv.onclick = function () {
             let header = document.getElementById("ApplicationHeader");
-            
             //applies title text
             header.innerText = elementDiv.innerText;
             //applies title color
@@ -72,21 +72,23 @@ const applicationRendering = {
             applicationRendering.currentTopic = Number(
               elementDiv.dataset.topic
             );
-
             contextLayout.clearCanvas(applicationRendering.canvas);
             applicationRendering.clearTopics();
-
+            pendulumDemo.stopTimer();
+            
             //renders canvas depending on the current topic
             switch (applicationRendering.currentTopic) {
               case applicationRendering.topics.forcesAdditionByAngleId:
-                forcesbyAngle.init();
-
+                forcesbyAngleDemo.init();
                 break;
               case applicationRendering.topics.ArchimedesPrincipleId:
-                archimedesPrinciple.init();
+                archimedesPrincipleDemo.init();
                 break;
-                case applicationRendering.topics.AppliancesId:
-                  appliances.init();
+                case applicationRendering.topics.pendulumDemoId:
+                  pendulumDemo.init();
+                  break;
+                case applicationRendering.topics.AppliancesDemoId:
+                  appliancesDemo.init();
                   break;
               default:
                 alert("No values");
@@ -101,8 +103,7 @@ const applicationRendering = {
   // clears variables in all topics
   clearTopics: function () {
     dragRendering.dragElements = [];
-    forcesbyAngle.empty();
-    forcesAddition.empty();
+    forcesbyAngleDemo.empty();
   }, // clearTopics
 
   /**
@@ -137,9 +138,3 @@ appElements.canvas.onmouseup = function (e) {
 appElements.canvas.onmousemove = function (e) {
   dragRendering.canvasMouseMove(e);
 };
-
-
-
-// document.getElementById("clickIt").onclick = function () {
-//   applicationRendering.runExperiment();
-// };

@@ -1,7 +1,7 @@
 /**
 * Methods related to the topic 'Forces By Angle'
 */
-const forcesbyAngle = {
+const forcesbyAngleDemo = {
     dynamometers: undefined,
     canvas: undefined,
     ctx: undefined,
@@ -62,11 +62,11 @@ const forcesbyAngle = {
 
         this.vars.suspendedCount = 0;
         this.applySettings();
-        this.dynamometers = forcesbyAngle.initRender();
+        this.dynamometers = forcesbyAngleDemo.initRender();
 
-        dragRendering.refresh = function () { forcesbyAngle.refreshDrawDrag(); };
-        dragRendering.stoppedDragging = function (elem) { forcesbyAngle.stoppedDrawDrag(elem); };
-        dragRendering.startedDragging = function (elem) { forcesbyAngle.startedDrawDrag(elem); };
+        dragRendering.refresh = function () { forcesbyAngleDemo.refreshDrawDrag(); };
+        dragRendering.stoppedDragging = function (elem) { forcesbyAngleDemo.stoppedDrawDrag(elem); };
+        dragRendering.startedDragging = function (elem) { forcesbyAngleDemo.startedDrawDrag(elem); };
     },
 
     /**
@@ -374,6 +374,8 @@ const forcesbyAngle = {
      *  function which calls during changing data in IFrame 
      */
     receivedMessage: function () {
+        if( this.dynamometers != undefined)
+        {
         // set weights of bricks
         dragRendering.findElem(this.constants.xBrickName).elem.weight = applicationRendering.topicVariables.xWeight;
         dragRendering.findElem(this.constants.yBrickName).elem.weight = applicationRendering.topicVariables.yWeight;
@@ -382,6 +384,7 @@ const forcesbyAngle = {
         this.dynamometers.dynamRight.maxValue = applicationRendering.topicVariables.maxValue;
         this.clear();
         dragRendering.redraw();
+        }
     },
 
     // reset all values and variables
@@ -405,10 +408,8 @@ const forcesbyAngle = {
     },
     
     passFrameValue: function () {
-        if (this.getForce() != undefined){
         let pass_data = { 'force': application.roundTwoDigits(this.getForce()) };
         applicationRendering.sendFrameMessage(pass_data);
-        }
     },
 
 
@@ -429,13 +430,13 @@ const forcesbyAngle = {
      * Calculates force applied by angle and resultant force
      */
     getForce: function () {
-        let angle = applicationRendering.topicVariables != undefined ? 
-        applicationRendering.topicVariables.angle : 0;
-        
+        if(applicationRendering.topicVariables != undefined ){
+        let angle = applicationRendering.topicVariables.angle;
         let force = this.vars.totalWeight / (2 * Math.cos(application.degrToRad(angle / 2)));
         return (application.kgToNewton(force));
+        }
     },
 
 
 
-} // forcesbyAngle
+} // forcesbyAngleDemo

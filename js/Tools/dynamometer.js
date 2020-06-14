@@ -202,16 +202,10 @@ Dynamometer.prototype = {
     let face = this.propsAppl.drawInnerFace.bind(this);
     let rotate = this.propsAppl.rotateCanvas.bind(this);
 
-    //let changeValue = this.valueOnChange.bind(this);
-    //changeValue(valuePointer);
-
     let rotateSpeed = this.propsDynam.getRotateStep();
-    //let rotateStep = this.rotateSpeed;
-    //alert(rotateStep);
     let currentValue = this.value;
     let initValue = currentValue;
-    // let rotateStep = this.maxValue * 0.018;
-    //let rotateStep = this.rotateSpeed;
+
 
     // to check if the value outside maximum value range
     if (this.value > this.maxValue) { currentValue = this.maxValue; }

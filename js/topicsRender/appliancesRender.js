@@ -1,7 +1,7 @@
 /**
 * Methods related to the topic 'Appliances'
 */
-const appliances = {
+const appliancesDemo = {
     canvas: undefined,
     ctx: undefined,
 
