@@ -5,15 +5,15 @@ function Spring(options = {}) {
   // default values for the spring
   Object.assign(this, {
     canvas: undefined,
-    swingFrontColor: "lightGray",
-    swingBackColor: "gray",
-    startX: 0,
-    startY: 0,
-    length: 100,
-    radius: 50,
+    swingFrontColor: "lightGray", //  color of front swing
+    swingBackColor: "gray",//  color to simulate back swing 
+    startX: 0, // star X coordinate of spring 
+    startY: 0,// star Y coordinate of spring 
+    length: 100, // length of spring
+    radius: 50, // radius of sine wave 
     swings: 5, // number of swings
     angle: 0, // rotation angle relatively of upper left corner
-    swingWidth: 5 // width of each swing
+    swingWidth: 3 // width of each swing
   }, options);
 }
 
@@ -68,5 +68,8 @@ Spring.prototype.draw = function () {
 
   ctx.restore();
 }
+
+
+
 
 

@@ -7,8 +7,13 @@ const dragRendering = {
     //canvas for drawing
     canvas: undefined,
 
-    //elements on stage with id of an element and an element (see stageElement.js) in particular
-    dragElements: [{ id: undefined, isDraggable : true, elem: undefined }],
+    //elements of stage with id of an element 
+    dragElements: [{ 
+        id: undefined, // unique id of item 
+        isDraggable : true, // is draggable element on canvas
+        isDragging : false, // is item currently being dragged on canvas 
+        elem: undefined // draggable element (see stageElement.js, Brick in particular) 
+    }],
 
     /**
      * custom function to determine end of dragging
@@ -43,7 +48,7 @@ const dragRendering = {
     * Searches for an dragging element by id
     */
     findElem: function (id) {
-        return this.dragElements.find(el => el.id === id);
+        return this.dragElements.find(el => el.id == id);
     },
 
 
@@ -51,7 +56,7 @@ const dragRendering = {
     * Searches for an dragging element by id
     */
    findDragElem: function (id) {
-    return this.dragElements.find(el => el.id === id);
+    return this.dragElements.find(el => el.id == id);
 },
 
     /**
@@ -113,11 +118,11 @@ const dragRendering = {
         e.stopPropagation();
 
         if (this.dragElements[0].elem != undefined) {
-            var dragElem = this.dragElements.find(el => el.isDragging === true);
+            var dragElem = this.dragElements.find(el => el.isDragging == true);
 
             // clear all the dragging flags
-            if (dragElem !== undefined) {
-                var dragElem = this.dragElements.find(el => el.isDragging === true);
+            if (dragElem != undefined) {
+                var dragElem = this.dragElements.find(el => el.isDragging == true);
                 this.stoppedDragging(dragElem);
                 dragElem.isDragging = false;
             }
@@ -172,10 +177,10 @@ const dragRendering = {
             }
 
             this.canvas.style.cursor = conditionEnter ? 'pointer' : 'default';
-            var dragElem = this.dragElements.find(el => el.isDragging === true && el.isDraggable === true);
+            var dragElem = this.dragElements.find(el => el.isDragging == true && el.isDraggable == true);
 
             // if user is dragging anything
-            if (dragElem !== undefined) {
+            if (dragElem != undefined) {
 
                 // calculate the distance the mouse has moved
                 let dx = mx - this.startMouseX;

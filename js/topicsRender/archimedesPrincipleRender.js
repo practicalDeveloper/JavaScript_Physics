@@ -169,7 +169,7 @@ const archimedesPrincipleDemo = {
 
         let currentPosition = archimedesPrincipleDemo.constants.dynamCoord.y;
         let initPosition = currentPosition;
-        let moveSpeed = 2;
+        let moveSpeed = 3; // displacement speed in pixels
 
         let liquidLevelY = archimedesPrincipleDemo.settings.bigLiquidBoxCoord.y + archimedesPrincipleDemo.settings.liquidLevelH;
         let yEndDynam = archimedesPrincipleDemo.getDropPosition().y;
@@ -219,12 +219,11 @@ const archimedesPrincipleDemo = {
      */
     moveDynamometer: function (yPosition) {
         contextLayout.clearCanvas(this.canvas);
+        this.drawBox();
+        this.drawLiquidBoxBig();
 
         // moves dynamometer
         this.dynamometers.springDynamometer.startY = yPosition;
-
-        this.drawBox();
-        this.drawLiquidBoxBig();
         this.dynamometers.springDynamometer.draw();
 
         // moves brick
@@ -288,11 +287,12 @@ const archimedesPrincipleDemo = {
             startY: this.constants.dynamCoord.y,
             canvas: this.canvas,
             angle: 90,
-            length: this.settings.dynamLength,
             height: this.constants.dynamWidth,
             strokeColor: "black",
             value: 0
         });
+        
+        springDynamometer.length = this.settings.dynamLength;
 
         this.drawBox();
         this.drawLiquidBoxBig();
@@ -332,8 +332,6 @@ const archimedesPrincipleDemo = {
 
         };
 
-        // await springDynamometer.setValue(15);
-        //await springDynamometer.setValue(0);
 
         return Object.freeze({
             springDynamometer
@@ -350,16 +348,17 @@ const archimedesPrincipleDemo = {
         {
             this.dynamometers.springDynamometer.maxValue = applicationRendering.topicVariables.maxValue;
             this.settings.cargoSize = (applicationRendering.topicVariables.weight * 0.2) + this.constants.minCargoSize;
-            this.getBrick().x = this.settings.cargoCoord.x;
-            this.getBrick().y = this.settings.cargoCoord.y;
             this.getBrick().height = this.getBrick().width = this.settings.cargoSize;
-            this.moveDynamometer(this.constants.dynamCoord.y);
-            this.clear();
+            // returns dynamometer back to the place
+            if(this.dynamometers.springDynamometer.startY != this.constants.dynamCoord.y)
+            {
+                this.dynamometers.springDynamometer.startY = this.constants.dynamCoord.y;
+            }
         
-            archimedesPrincipleDemo.cancelTimer = true;
-        
-            dragRendering.dragElements[0].isDraggable = true;
-            dragRendering.redraw();
+             archimedesPrincipleDemo.cancelTimer = true;
+             dragRendering.dragElements[0].isDraggable = true;
+             this.clear();
+             dragRendering.redraw();
         }
     },
 
@@ -384,7 +383,7 @@ const archimedesPrincipleDemo = {
         this.getBrick().x = this.settings.cargoCoord.x;
         this.getBrick().y = this.settings.cargoCoord.y;
 
-        if (this.dynamometers !== undefined) {
+        if (this.dynamometers !== undefined && this.dynamometers.springDynamometer.value != 0) {
             this.dynamometers.springDynamometer.setStaticValue(0);
 
         }

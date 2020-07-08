@@ -5,17 +5,17 @@ function SpringDynamometer(options = {}) {
   // default values for the ruler
   Object.assign(this, {
     canvas: undefined,
-    startX: 0,
-    startY: 0,
+    startX: 0, // left top start X coordinate of spring dynamometer 
+    startY: 0, // // left top start Y coordinate of spring dynamometer 
     length: 200,
     height: 50,
-    maxValue: 10,
+    maxValue: 10, // maximum possible value of spring dynamometer
     backColor: "orange",
     strokeColor: "black",
     angle: 0, // rotation angle relatively of upper left corner
     animatedHolder: false, // are holder and hook animated
-    value: 0,
-    animationStep: undefined
+    value: 0, // current  value of spring dynamometer
+    animationStep: undefined // speed of animation of arrow
   }, options);
 
   // function to call during value changing
@@ -225,7 +225,6 @@ SpringDynamometer.prototype = {
 
   /**
   * sets spring indicator to value with animation
-  * @param {valuePointer} Value of dynamometer
   */
   setValue: async function (valuePointer = 0) {
     if (valuePointer < 0) return;

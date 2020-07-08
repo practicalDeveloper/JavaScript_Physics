@@ -2,17 +2,17 @@
  * Canvas drawn ruler object 
  */
 function Ruler(options = {}) {
-  // default values for the ruler
+  // default values for ruler
   Object.assign(this, {
     canvas: undefined,
-    startX: 0,
-    startY: 0,
+    startX: 0, // left top start X coordinate of ruler 
+    startY: 0, // // left top start Y coordinate of ruler 
     length: 200,
     height: 50,
-    maxValue: 10,
-    backColor: "orange",
+    maxValue: 10, // max ruler value
+    backColor: "orange", // background color of ruler
     strokeColor: "black",
-    showBackground: true,
+    showBackground: true,  //shows/hides background of ruler
     showBottom: true, //shows/hides bottom ruler lines
     angle: 0, // rotation angle relatively of upper left corner
   }, options);

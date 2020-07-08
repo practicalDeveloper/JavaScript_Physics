@@ -8,9 +8,9 @@ function Dynamometer(options) {
   
   // default values for Dynamometer
   Object.assign(this, {
-    maxValue: 10,
-    value: 0,
-    rotateStep : undefined
+    maxValue: 10, // maximum possible value of dynamometer
+    value: 0, // current  value of dynamometer
+    rotateStep : undefined // speed of rotation of arrow
   }, options);
 
 
@@ -192,7 +192,6 @@ Dynamometer.prototype = {
   
   /**
    * sets arrow indicator to value with animation
-   * @param {valuePointer} Value of dynamometer
    */
   setValue: async function (valuePointer = 0) {
     let value = this.setStaticValue.bind(this);

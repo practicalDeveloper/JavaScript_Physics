@@ -5,8 +5,8 @@ const applicationRendering = {
   topics: {  forcesAdditionByAngleId: 1, ArchimedesPrincipleId: 2 , 
     pendulumDemoId : 3, AppliancesDemoId: 4}, // all data-topic attributes from the HTML menu
   currentTopic: undefined, // to set current selected topic in the menu
-  canvas: appElements.canvas, // main canvas in the application
-  context: appElements.context, // main canvas' context in the application
+  canvas: application.canvas, // main canvas in the application
+  context: application.context, // main canvas' context in the application
   topicVariables: undefined, // variables in JSON format from frames
 
   /**
@@ -129,12 +129,12 @@ window.addEventListener(
   false
 );
 
-appElements.canvas.onmousedown = function (e) {
+application.canvas.onmousedown = function (e) {
   dragRendering.canvasMouseDown(e);
 };
-appElements.canvas.onmouseup = function (e) {
+application.canvas.onmouseup = function (e) {
   dragRendering.canvasMouseUp(e);
 };
-appElements.canvas.onmousemove = function (e) {
+application.canvas.onmousemove = function (e) {
   dragRendering.canvasMouseMove(e);
 };

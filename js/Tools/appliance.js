@@ -11,16 +11,15 @@ function Appliance(options = {}) {
 
   // default values for the appliance
   Object.assign(this, {
-    centerX: 0, 
-    centerY: 0, 
+    centerX: 0, // X center coordinate 
+    centerY: 0, // Y center coordinate 
     radius: 50,
     angle: 0, // rotation angle around center point
     ringColor: "#5f5f5f",
     backRingColor: "#e9e9e9",
     innerRingColor: "#7e7e7e",
-    pointerColor: "#d95358",
-    canvas: undefined,
-    value: 0
+    pointerColor: "#d95358", // color of arrow pointer 
+    canvas: undefined
   }, options);
 
   // canvas' context 
@@ -50,31 +49,31 @@ function Appliance(options = {}) {
         this.context.beginPath();
 
       // shadow color
-      if (!application.isUndefined(shadowColor)) { this.context.shadowColor = shadowColor; }
+      if (shadowColor != undefined) { this.context.shadowColor = shadowColor; }
 
       // shadow color
-      if (!application.isUndefined(shadowOffset)) {
+      if (!shadowOffset != undefined) {
         this.context.shadowOffsetX = shadowOffset;
         this.context.shadowOffsetY = shadowOffset;
       }
 
       // shadow blur
-      if (!application.isUndefined(shadowBlur)) { this.context.shadowBlur = shadowBlur; }
+      if (shadowBlur != undefined) { this.context.shadowBlur = shadowBlur; }
 
       // fill style
-      if (!application.isUndefined(fillStyle)) { this.context.fillStyle = fillStyle; }
+      if (fillStyle != undefined) { this.context.fillStyle = fillStyle; }
 
       // stroke style
-      if (!application.isUndefined(strokeStyle)) { this.context.strokeStyle = strokeStyle; }
+      if (strokeStyle!= undefined) { this.context.strokeStyle = strokeStyle; }
 
       // line width
-      if (!application.isUndefined(lineWidth)) { this.context.lineWidth = lineWidth; }
+      if (lineWidth!= undefined) { this.context.lineWidth = lineWidth; }
 
       this.context.arc(this.centerX, this.centerY, radius, 0, application.arcPath);
       this.context.fill();
 
       // stroke applying
-      if (!application.isUndefined(strokeStyle)) { this.context.stroke(); }
+      if (strokeStyle != undefined) { this.context.stroke(); }
 
       this.context.restore();
     }, //drawArc 

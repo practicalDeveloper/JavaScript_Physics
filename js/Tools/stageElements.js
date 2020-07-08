@@ -1,28 +1,27 @@
 /**
- * Canvas drawn movable object
+ * Canvas drawn object for physics experiments like cargo, brick etc.
  */
-function MovableItem(options = {}) {
+function StageItem(options = {}) {
 
   /**
    * default values for an item
    */
   Object.assign(this, {
-    x: 0,
-    x: 0,
-    width: 40,
-    height: 40,
-    fill: "#7aa7ca",
-    strokeColor: "black",
-    isDragging: false,
-    weight: 1,
-    itemText: "item",
-    lineWidth: 2,
+    x: 0, // left top start X coordinate of item 
+    y: 0, // left top start Y coordinate of item 
+    width: 40, // width of item in pixels
+    height: 40, // height of item in pixels
+    fill: "#7aa7ca", // background color of item
+    strokeColor: "black", // stroke color of item
+    weight: 1, // weight of item ( can be kg, g, pound etc.)
+    itemText: "item", // text on item
+    lineWidth: 2, // stroke width of item
     canvas: undefined,
   }, options);
 
 
   /**
-   * properties of MovableItem for internal usage
+   * properties of StageItem for internal usage
    */
   this.props = {
     getItemFont: () => this.width * 0.35 + "px Tahoma", // font of label for item
@@ -88,78 +87,28 @@ function MovableItem(options = {}) {
     return this.height + this.getHookSize() + this.getUpperHookSize();
   }
 
-} // MovableItem
+} // StageItem
 
 
 
 
-
-function Cargo(options) {
-
-  // inheritance from MovableItem
-  MovableItem.call(this, options);
-  // default values for Cargo
-  Object.assign(this, options);
-
-}// Cargo
-
-Cargo.prototype = Object.create(MovableItem.prototype);
-Cargo.prototype.constructor = Cargo;
-
-Cargo.prototype.draw = function () {
-  let ctx = this.canvas.getContext("2d");
-  ctx.save();
-
-  // draws body with shadow
-  ctx.save();
-  contextLayout.applyShadow(ctx);
-  ctx.beginPath();
-  let h = this.height / 9;
-  ctx.moveTo(this.x, this.y);
-  ctx.lineTo(this.x, this.y + (this.height - h));
-  ctx.quadraticCurveTo(this.x + this.width / 2, this.y + this.height, this.x + this.width, this.y + (this.height - h));
-  ctx.lineTo(this.x + this.width, this.y);
-  ctx.fillStyle = this.props.linearGradient(ctx);
-  ctx.closePath();
-  ctx.fill();
-  ctx.stroke();
-  ctx.restore();
-
-  //Upper ellipse
-  ctx.beginPath();
-  ctx.ellipse(
-    this.x + this.width / 2,
-    this.y,
-    this.width / 2,
-    h / 2,
-    0, 0, 2 * Math.PI);
-  ctx.fillStyle = "white";
-  ctx.closePath();
-  ctx.fill();
-  ctx.stroke();
-
-  this.props.drawHook(ctx);
-
-  ctx.restore();
-}//Cargo.prototype.draw
-
-
-
-
+/**
+ * Canvas drawn brick object
+ */
 function Brick(options) {
 
-  // inheritance from MovableItem
-  MovableItem.call(this, options);
+  // inheritance from StageItem
+  StageItem.call(this, options);
 
   // default values for Brick
   Object.assign(this, {
-    roundRadius: 5,
+    roundRadius: 5, // round roudius of rectangle
   },
     options);
 
 }// Brick
 
-Brick.prototype = Object.create(MovableItem.prototype);
+Brick.prototype = Object.create(StageItem.prototype);
 Brick.prototype.constructor = Brick;
 
 
@@ -182,20 +131,20 @@ Brick.prototype.draw = function () {
 
 
 
-
-
-
+/**
+ * Canvas drawn ball object
+ */
 function Ball(options) {
 
-  // inheritance from MovableItem
-  MovableItem.call(this, options);
+  // inheritance from StageItem
+  StageItem.call(this, options);
 
   // default values for Ball
   Object.assign(this, options);
 
 }// Ball
 
-Ball.prototype = Object.create(MovableItem.prototype);
+Ball.prototype = Object.create(StageItem.prototype);
 Ball.prototype.constructor = Ball;
 
 
@@ -213,6 +162,12 @@ Ball.prototype.draw = function () {
 
   ctx.stroke();
   ctx.restore();
+
+  ctx.save();
+  this.props.drawHook(ctx);
+  contextLayout.drawCenterText(ctx, this.props.getItemFont(),
+    this.itemText, this.x + this.width / 2, this.y + this.height / 2);
+  ctx.restore();
 }//Ball.prototype.draw
 
 
@@ -226,12 +181,12 @@ function Hook(options = {}) {
    * default values for a hook
    */
   Object.assign(this, {
-    x: 0,
-    y: 0,
-    size: 40,
-    lineWidth: 2,
+    x: 0, // top center start X coordinate of hook 
+    y: 0, // top center start Y coordinate of hook 
+    size: 40, // width and heigh of hook in pixels
+    lineWidth: 2, // stroke width of hook
     canvas: undefined,
-    angle: 0,
+    angle: 0, // rotation angle relatively of top center point
   }, options);
 
 }
@@ -250,6 +205,7 @@ Hook.prototype.draw = function () {
   let hLine = this.size / 6;
   let hookR = this.size / 2;
   ctx.strokeStyle = this.strokeColor;
+
   //draw upper line
   ctx.moveTo(this.x, this.y);
   ctx.lineTo(this.x, this.y + this.size - 2 * (hookR - hLine));

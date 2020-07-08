@@ -4,9 +4,10 @@
 const application = {
     arcPath: (2 * Math.PI),
     degrToRad: (degrees) => (Math.PI / 180) * degrees,
-    isUndefined: (param) => typeof (param) === 'undefined',
     roundTwoDigits: (param) => (Math.round(param * 100) / 100),
     kgToNewton: (kg) =>  kg * 9.81,
+    canvas: document.getElementById("Canvas"),
+    context: document.getElementById("Canvas") != undefined ? document.getElementById("Canvas").getContext("2d") : undefined,
     timeout : ms => new Promise(resolve => setTimeout(resolve, ms)),
     timeoutCancellable :  ms => {
         let timer = 0;
@@ -29,14 +30,6 @@ const application = {
     isNumber: (n) => !isNaN(parseFloat(n)) && isFinite(n),
 }// application
 
-
-/**
-* Elements by their ID from whole application
-*/
-const appElements = {
-    canvas: document.getElementById("Canvas"),
-    context: document.getElementById("Canvas") != undefined ? document.getElementById("Canvas").getContext("2d") : undefined,
-}// appElements
 
 
 /**

@@ -18,7 +18,7 @@ const appliancesDemo = {
             length: 400,
             height: 60,
             strokeColor: "black",
-            value: 0,
+            value: 20,
             animatedHolder: true,
             maxValue: 50
         });
@@ -32,42 +32,85 @@ const appliancesDemo = {
             height: 60,
             strokeColor: "black",
             maxValue: 500
-
         });
 
         let spring = new Spring({
             radius: 30,
             startX: 200,
             startY: 150,
-            length : 200,
+            length: 200,
             canvas: this.canvas,
-            swings : 20
-          }); 
+            swings: 20
+        });
 
 
-          var dynamometer = new Dynamometer({
-            centerX: 250, 
+        let dynamometer = new Dynamometer({
+            centerX: 250,
             centerY: 300,
             radius: 100,
-            ringColor: "red", 
-            backRingColor: "yellow", 
+            ringColor: "red",
+            backRingColor: "yellow",
             canvas: this.canvas,
+            angle: 45,
             maxValue: 20
         });
 
+        let appliance = new Appliance({
+            centerX: 600,
+            centerY: 300,
+            radius: 100,
+            angle: 0,
+            ringColor: "red",
+            backRingColor: "yellow",
+            innerRingColor: "green",
+            pointerColor: "#d95358",
+            canvas: this.canvas
+        });
 
-        springDynamometer.valueOnChange = function () {
-            contextLayout.clearCanvas(this.canvas);
-            ruler.draw();
-            spring.draw();
-            dynamometer.draw();
-            dynamometer.setStaticValue(-3);
 
-        };
+        let ball = new Ball({
+            x: 510,
+            y: 130,
+            width: 40,
+            height: 40,
+            itemText: "Ball",
+            canvas: this.canvas,
+        });
+
+
+        let brick = new Brick({
+            x: 450,
+            y: 130,
+            width: 40,
+            height: 40,
+            fill: "LightGray",
+            strokeColor: "black",
+            itemText: "Brick",
+            lineWidth: 2,
+            canvas: this.canvas,
+        });
+
+        let hook = new Hook({
+            x: 580,
+            y: 130,
+            size: 40,
+            lineWidth: 2,
+            canvas: this.canvas,
+            angle: 0,
+        });
+
+        contextLayout.clearCanvas(this.canvas);
+        brick.draw();
+        ball.draw();
+        hook.draw();
+        ruler.draw();
+        spring.draw();
+        dynamometer.draw();
+        dynamometer.setStaticValue(-3);
+        appliance.draw();
+        appliance.drawPointer(90);
+
 
         springDynamometer.draw();
-        springDynamometer.setValue(30).then(function () {
-            springDynamometer.setValue(0);
-        });
     },
 }
