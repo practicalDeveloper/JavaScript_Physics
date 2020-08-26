@@ -164,7 +164,7 @@ const dragRendering = {
         let mx = coord.mx;
         let my = coord.my;
 
-        if (this.dragElements[0].elem != undefined) {
+        if (this.dragElements.length != 0  && this.dragElements[0].elem != undefined) {
             for (var i = 0; i < this.dragElements.length; i++) {
                 var el = this.dragElements[i];
                 if(el.isDraggable)

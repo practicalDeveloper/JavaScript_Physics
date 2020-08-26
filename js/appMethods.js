@@ -4,12 +4,15 @@
 const application = {
     arcPath: (2 * Math.PI),
     degrToRad: (degrees) => (Math.PI / 180) * degrees,
-    roundTwoDigits: (param) => (Math.round(param * 100) / 100),
     kgToNewton: (kg) =>  kg * 9.81,
     canvas: document.getElementById("Canvas"),
-    context: document.getElementById("Canvas") != undefined ? document.getElementById("Canvas").getContext("2d") : undefined,
     timeout : ms => new Promise(resolve => setTimeout(resolve, ms)),
-    timeoutCancellable :  ms => {
+    roundTwoDigits: (param) => (Math.round(param * 100) / 100),
+
+    /**
+    * Gets promise with setTimeout
+    */
+    timeoutPromise :  ms => {
         let timer = 0;
         const promise = new Promise((resolve) => {
             timer = setTimeout(resolve, ms);

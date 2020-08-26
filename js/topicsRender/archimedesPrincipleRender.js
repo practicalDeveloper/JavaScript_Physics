@@ -184,7 +184,7 @@ const archimedesPrincipleDemo = {
                 if (condition) {
 
                     archimedesPrincipleDemo.moveDynamometer(currentPosition);
-                    let timeout = application.timeoutCancellable(1);
+                    let timeout = application.timeoutPromise(1);
                     if (archimedesPrincipleDemo.cancelTimer == true) {
                         clearTimeout(timeout.timer);
                     }

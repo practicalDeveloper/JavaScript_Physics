@@ -6,7 +6,7 @@ const applicationRendering = {
     pendulumDemoId : 3, AppliancesDemoId: 4}, // all data-topic attributes from the HTML menu
   currentTopic: undefined, // to set current selected topic in the menu
   canvas: application.canvas, // main canvas in the application
-  context: application.context, // main canvas' context in the application
+  context: document.getElementById("Canvas").getContext("2d"), // main canvas' context in the application
   topicVariables: undefined, // variables in JSON format from frames
 
   /**

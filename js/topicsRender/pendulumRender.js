@@ -83,7 +83,7 @@ const pendulumDemo = {
 
     animatePendulum: function (startAngle, timeInterval, startAngle2, timeInterval2) {
 
-        let interval = 5; // interval for the timer in ms
+        let interval = 20; // interval for the timer in ms
         let secondsInterval = 0;
         var expected = Date.now() + interval;
         this.timer = setTimeout(step, interval);
