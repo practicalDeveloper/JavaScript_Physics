@@ -323,9 +323,6 @@ const forcesbyAngleDemo = {
         }
 
         this.setDynamValues();
-        this.setDraggingFlags();
-
-        this.passFrameValue();
 
     }, // stoppedDrawDrag
 
@@ -421,8 +418,15 @@ const forcesbyAngleDemo = {
 
 
     setDynamValues: function () {
-        this.dynamometers.dynamLeft.setValue(this.getForce());
-        this.dynamometers.dynamRight.setValue(this.getForce());
+        this.dynamometers.dynamLeft.setValue(this.getForce()).then(() => {
+            this.setDraggingFlags();
+            this.passFrameValue();
+        })
+
+        this.dynamometers.dynamRight.setValue(this.getForce()).then(() => {
+            this.setDraggingFlags();
+            this.passFrameValue();
+        })
     },
 
 
