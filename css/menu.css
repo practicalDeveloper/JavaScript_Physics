@@ -12,11 +12,11 @@
 #level1 a:hover,
 #level1 a:focus,
 #level1 a:active {
-  background: #d9dcb0;
+  background:  var(--subLevelOver1-color);
 }
 
 #level1 a {
-  background: #ced174;
+  background: var(--subLevel1-color);
 }
 
 /* Level 2 background styles */
@@ -27,11 +27,11 @@
 #level2 a:hover,
 #level2 a:focus,
 #level2 a:active {
-  background: #f8dfb1;
+  background:  var(--subLevelOver2-color);
 }
 
 #level2 a {
-  background: #f8d28e;
+  background:  var(--subLevel2-color);
 }
 
 /* Level 3 background styles */
@@ -42,11 +42,11 @@
 #level3 a:hover,
 #level3 a:focus,
 #level3 a:active {
-  background: #eecdc8;
+  background: var(--subLevelOver3-color);
 }
 
 #level3 a {
-  background: #e7b0a7;
+  background: var(--subLevel3-color);
 }
 
 /* Level 4 background styles */
@@ -57,16 +57,16 @@
 #level4 a:hover,
 #level4 a:focus,
 #level4 a:active {
-  background: #a4c9d5;
+  background:var(--subLevelOver4-color);
 }
 
 #level4 a {
-  background: #82b8c9;
+  background: var(--subLevel4-color);
 }
 
 /* Level 5 background styles */
 #level5 {
-  background-color: #5122b4;
+  background-color: var(--level5-color);
 }
 
 .firstLevelMenu {
@@ -103,5 +103,4 @@
   display: block;
   padding: 0px;
   margin-top: 1px;
-  /* border-top: white solid  1px;   */
 }

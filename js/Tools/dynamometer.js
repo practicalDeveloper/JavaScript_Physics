@@ -10,7 +10,7 @@ function Dynamometer(options) {
   Object.assign(this, {
     maxValue: 10, // maximum possible value of dynamometer
     value: 0, // current  value of dynamometer
-    rotateStep : undefined // speed of rotation of arrow
+    rotateStep : undefined // speed of rotation of the arrow (i.e. change of value by time period)
   }, options);
 
 
@@ -138,7 +138,7 @@ function Dynamometer(options) {
         arcNumber > maxTextCondition :
         arcNumber > maxTextCondition;
 
-      let isMaxValueReached = arcNumber === maxTextCondition;
+      let isMaxValueReached = arcNumber == maxTextCondition;
 
       if (arcNumber >= 0 && firstQuarterCondition) {
         text--;
@@ -204,7 +204,6 @@ Dynamometer.prototype = {
     let rotateSpeed = this.propsDynam.getRotateStep();
     let currentValue = this.value;
     let initValue = currentValue;
-
 
     // to check if the value outside maximum value range
     if (this.value > this.maxValue) { currentValue = this.maxValue; }

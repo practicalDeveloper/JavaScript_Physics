@@ -6,14 +6,14 @@ function Ruler(options = {}) {
   Object.assign(this, {
     canvas: undefined,
     startX: 0, // left top start X coordinate of ruler 
-    startY: 0, // // left top start Y coordinate of ruler 
-    length: 200,
-    height: 50,
+    startY: 0,  // left top start Y coordinate of ruler 
+    length: 200, // length of ruler
+    height: 50, // height of ruler
     maxValue: 10, // max ruler value
     backColor: "orange", // background color of ruler
-    strokeColor: "black",
+    strokeColor: "black", //  line color 
     showBackground: true,  //shows/hides background of ruler
-    showBottom: true, //shows/hides bottom ruler lines
+    showBottom: true, //shows/hides bottom strokes of ruler
     angle: 0, // rotation angle relatively of upper left corner
   }, options);
 

@@ -3,33 +3,31 @@
 */
 const applicationRendering = {
   topics: {  forcesAdditionByAngleId: 1, ArchimedesPrincipleId: 2 , 
-    pendulumDemoId : 3, AppliancesDemoId: 4}, // all data-topic attributes from the HTML menu
-  currentTopic: undefined, // to set current selected topic in the menu
+    pendulumDemoId : 3, AppliancesDemoId: 4}, // data attributes from the HTML menu corresponding to the physical topics 
+  currentTopic: undefined, // to set current selected topic from HTML the menu
   canvas: application.canvas, // main canvas in the application
-  context: document.getElementById("Canvas").getContext("2d"), // main canvas' context in the application
-  topicVariables: undefined, // variables in JSON format from frames
+  context: application.canvas.getContext("2d"), // main canvas' context in the application
+  topicVariables: undefined, // variables in JSON format from the IFrame
 
   /**
-  * intitial initialization of the application
+  * initial initialization of the application
   */
-  intitialInit: function () {
-    //this.currentTopic = applicationRendering.topics.forcesAdditionByAngleId;
+ initialInit: function () {
     contextLayout.stretchCanvas(this.canvas, "divCanvas");
 
     dragRendering.canvas = forcesbyAngleDemo.canvas =
     archimedesPrincipleDemo.canvas = pendulumDemo.canvas = appliancesDemo.canvas = this.canvas;
        forcesbyAngleDemo.ctx = archimedesPrincipleDemo.ctx = pendulumDemo.ctx = appliancesDemo.ctx = this.context;
-    //forcesbyAngleDemo.init();
 
     this.renderMenu();
-  }, // intitialInit
+  }, // initialInit
 
 
-  /**
-* performs actions for selected topic
+/**
+* passes variables from the IFrame element to each topic
 */
-  receiveData: function (data) {
-    switch (applicationRendering.currentTopic) {
+  receiveData: function () {
+    switch (this.currentTopic) {
       case this.topics.forcesAdditionByAngleId:
         forcesbyAngleDemo.receivedMessage();
         break;
@@ -40,7 +38,8 @@ const applicationRendering = {
           pendulumDemo.receivedMessage();
           break;
       default:
-        alert("No data");
+        // no topic provided
+
     }
   }, // receiveData
 
@@ -55,10 +54,11 @@ const applicationRendering = {
       let div = elem.getElementsByClassName("menu-sub-item")[0];
       elem.onclick = () => (div.hidden = !div.hidden);
 
-      if (div !== undefined) {
+      if (div != undefined) {
         let divElements = div.querySelectorAll("div");
+
         for (let elementDiv of divElements) {
-          elementDiv.onclick = function () {
+          elementDiv.onclick = () => { 
             let header = document.getElementById("ApplicationHeader");
             //applies title text
             header.innerText = elementDiv.innerText;
@@ -69,29 +69,29 @@ const applicationRendering = {
             header.style.color = titleColor;
 
             //sets current topic for topics enumeration
-            applicationRendering.currentTopic = Number(
+            this.currentTopic = Number(
               elementDiv.dataset.topic
             );
-            contextLayout.clearCanvas(applicationRendering.canvas);
-            applicationRendering.clearTopics();
+            contextLayout.clearCanvas(this.canvas);
+            this.clearTopics();
             pendulumDemo.stopTimer();
             
             //renders canvas depending on the current topic
-            switch (applicationRendering.currentTopic) {
-              case applicationRendering.topics.forcesAdditionByAngleId:
+            switch (this.currentTopic) {
+              case this.topics.forcesAdditionByAngleId:
                 forcesbyAngleDemo.init();
                 break;
-              case applicationRendering.topics.ArchimedesPrincipleId:
+              case this.topics.ArchimedesPrincipleId:
                 archimedesPrincipleDemo.init();
                 break;
-                case applicationRendering.topics.pendulumDemoId:
+                case this.topics.pendulumDemoId:
                   pendulumDemo.init();
                   break;
-                case applicationRendering.topics.AppliancesDemoId:
+                case this.topics.AppliancesDemoId:
                   appliancesDemo.init();
                   break;
               default:
-                alert("No values");
+                // no topic provided
             } // switch
           } //elementDiv.onclick
         }
@@ -100,10 +100,12 @@ const applicationRendering = {
 
   }, // renderMenu
 
-  // clears variables in all topics
+  // clears variables for all topics
   clearTopics: function () {
     dragRendering.dragElements = [];
-    forcesbyAngleDemo.empty();
+    forcesbyAngleDemo.reset();
+    archimedesPrincipleDemo.reset();
+    pendulumDemo.reset();
   }, // clearTopics
 
   /**
@@ -116,7 +118,14 @@ const applicationRendering = {
 
 }; // applicationRendering
 
-applicationRendering.intitialInit();
+
+
+
+
+
+
+// implementation
+applicationRendering.initialInit();
 
 window.addEventListener(
   "message",

@@ -73,11 +73,11 @@ const archimedesPrincipleDemo = {
     */
     init: function () {
         this.applySettings();
-        this.dynamometers = archimedesPrincipleDemo.initRender();
+        this.dynamometers = this.initRender();
 
-        dragRendering.refresh = function () { archimedesPrincipleDemo.refreshDrawDrag(); };
-        dragRendering.stoppedDragging = function (elem) { archimedesPrincipleDemo.stoppedDrawDrag(elem); };
-        dragRendering.startedDragging = function (elem) { archimedesPrincipleDemo.startedDrawDrag(elem); };
+        dragRendering.refresh = () => {  this.refreshDrawDrag(); }
+        dragRendering.stoppedDragging = (elem) => {  this.stoppedDrawDrag(elem); }
+        dragRendering.startedDragging = (elem) => { this.startedDrawDrag(elem); }
     },
 
 
@@ -126,8 +126,8 @@ const archimedesPrincipleDemo = {
             let volume = application.roundTwoDigits(weight / bodyDensity);
             let buyonantForce = application.roundTwoDigits(liquidDensity * 9.81 * volume);
             let gravityForce = this.getForce();
-            archimedesPrincipleDemo.cancelTimer = false;
-            this.dynamometers.springDynamometer.setValue(gravityForce).then(function () {
+            this.cancelTimer = false;
+            this.dynamometers.springDynamometer.setValue(gravityForce).then(() => {
 
                 let force = gravityForce;
                 if (buyonantForce > gravityForce) {
@@ -138,8 +138,8 @@ const archimedesPrincipleDemo = {
                     force = gravityForce - buyonantForce;
                 }
 
-                archimedesPrincipleDemo.animatePosition().then(function () {
-                    archimedesPrincipleDemo.dynamometers.springDynamometer.setValue(force).then(function () {
+                this.animatePosition().then(() => {
+                    this.dynamometers.springDynamometer.setValue(force).then(() => {
                         dropElem.isDraggable = true;
                     })
                 })
@@ -155,7 +155,7 @@ const archimedesPrincipleDemo = {
         // returns element to the box
         else {
             this.dynamometers.springDynamometer.setStaticValue(0);
-            archimedesPrincipleDemo.moveDynamometer(archimedesPrincipleDemo.constants.dynamCoord.y);
+            this.moveDynamometer(this.constants.dynamCoord.y);
             this.passFrameValue(0, 0, 0);
             setPos(this.settings.cargoCoord.x, this.settings.cargoCoord.y);
             dragRendering.redraw();
@@ -167,25 +167,25 @@ const archimedesPrincipleDemo = {
 
     animatePosition: async function () {
 
-        let currentPosition = archimedesPrincipleDemo.constants.dynamCoord.y;
+        let currentPosition = this.constants.dynamCoord.y;
         let initPosition = currentPosition;
         let moveSpeed = 3; // displacement speed in pixels
 
-        let liquidLevelY = archimedesPrincipleDemo.settings.bigLiquidBoxCoord.y + archimedesPrincipleDemo.settings.liquidLevelH;
-        let yEndDynam = archimedesPrincipleDemo.getDropPosition().y;
-        let oldPosition = archimedesPrincipleDemo.dynamometers.springDynamometer.startY;
+        let liquidLevelY = this.settings.bigLiquidBoxCoord.y + this.settings.liquidLevelH;
+        let yEndDynam = this.getDropPosition().y;
+        let oldPosition = this.dynamometers.springDynamometer.startY;
         let setCoord = oldPosition + (liquidLevelY - yEndDynam);
 
-        // recursion function to move dynamometer during setTimeout
-        async function tick() {
+        
+        // function to move dynamometer during setTimeout
+        const tick = async () => {
 
-            // movevement according to condition
-            async function setTimer(condition) {
+            // movement according to condition
+            const setTimer = async (condition) => {
                 if (condition) {
-
-                    archimedesPrincipleDemo.moveDynamometer(currentPosition);
+                    this.moveDynamometer(currentPosition);
                     let timeout = application.timeoutPromise(1);
-                    if (archimedesPrincipleDemo.cancelTimer == true) {
+                    if (this.cancelTimer == true) {
                         clearTimeout(timeout.timer);
                     }
 
@@ -195,7 +195,7 @@ const archimedesPrincipleDemo = {
                 }
                 // stops timer
                 else {
-                    archimedesPrincipleDemo.moveDynamometer(setCoord);
+                    this.moveDynamometer(setCoord);
                     return;
                 }
             } // setTimer
@@ -275,7 +275,7 @@ const archimedesPrincipleDemo = {
     getDropPosition: function () {
         let x = this.dynamometers.springDynamometer.getFinishCoord().x - this.settings.cargoSize / 2;
         let y = this.dynamometers.springDynamometer.getFinishCoord().y + this.getBrick().getUpperHookSize();
-        return { x: x, y: y };
+        return { x, y };
     },
 
     /**
@@ -333,14 +333,12 @@ const archimedesPrincipleDemo = {
         };
 
 
-        return Object.freeze({
-            springDynamometer
-        });
+        return { springDynamometer };
 
     }, // initRender
 
     /**
-    *  function which calls during changing data in IFrame 
+    *  function which calls during data change in the IFrame 
     */
     receivedMessage: async function () {
         // set weights of bricks
@@ -355,7 +353,7 @@ const archimedesPrincipleDemo = {
                 this.dynamometers.springDynamometer.startY = this.constants.dynamCoord.y;
             }
         
-             archimedesPrincipleDemo.cancelTimer = true;
+             this.cancelTimer = true;
              dragRendering.dragElements[0].isDraggable = true;
              this.clear();
              dragRendering.redraw();
@@ -383,12 +381,18 @@ const archimedesPrincipleDemo = {
         this.getBrick().x = this.settings.cargoCoord.x;
         this.getBrick().y = this.settings.cargoCoord.y;
 
-        if (this.dynamometers !== undefined && this.dynamometers.springDynamometer.value != 0) {
+        if (this.dynamometers != undefined && this.dynamometers.springDynamometer.value != 0) {
             this.dynamometers.springDynamometer.setStaticValue(0);
 
         }
 
         this.passFrameValue(0, 0, 0);
+    },
+
+    // clears all variables
+    reset: function () {
+        this.dynamometers = undefined;
+        this.cancelTimer = true;
     },
 
 } // archimedesPrincipleDemo

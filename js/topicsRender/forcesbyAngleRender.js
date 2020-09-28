@@ -62,11 +62,11 @@ const forcesbyAngleDemo = {
 
         this.vars.suspendedCount = 0;
         this.applySettings();
-        this.dynamometers = forcesbyAngleDemo.initRender();
+        this.dynamometers = this.initRender();
 
-        dragRendering.refresh = function () { forcesbyAngleDemo.refreshDrawDrag(); };
-        dragRendering.stoppedDragging = function (elem) { forcesbyAngleDemo.stoppedDrawDrag(elem); };
-        dragRendering.startedDragging = function (elem) { forcesbyAngleDemo.startedDrawDrag(elem); };
+        dragRendering.refresh = () => {  this.refreshDrawDrag(); }
+        dragRendering.stoppedDragging = (elem) => {  this.stoppedDrawDrag(elem); }
+        dragRendering.startedDragging = (elem) => { this.startedDrawDrag(elem); }
     },
 
     /**
@@ -74,17 +74,17 @@ const forcesbyAngleDemo = {
      */
     initRender: function () {
         // The left dynamometer
-        var dynamLeft = new Dynamometer({
+        let dynamLeft = new Dynamometer({
             centerX: 0, centerY: 0,
             radius: this.settings.dynamRadius,
-            ringColor: "green", backRingColor: "yellow", canvas: this.canvas
+            ringColor: "green", innerRingColor: "yellow", canvas: this.canvas
         });
 
         // The right dynamometer
-        var dynamRight = new Dynamometer({
+        let dynamRight = new Dynamometer({
             centerX: 0, centerY: 0,
             radius: this.settings.dynamRadius,
-            ringColor: "red", backRingColor: "yellow", canvas: this.canvas
+            ringColor: "red", innerRingColor: "yellow", canvas: this.canvas
         });
 
         this.drawBox();
@@ -139,10 +139,10 @@ const forcesbyAngleDemo = {
         dynamRight.setStaticValue(0);
         dynamLeft.setStaticValue(0);
 
-        return Object.freeze({
+        return {
             dynamLeft,
             dynamRight
-        });
+        };
 
     },// initRender
 
@@ -164,7 +164,7 @@ const forcesbyAngleDemo = {
      * Drawing of the rope to suspend bricks
      */
     drawRope: function () {
-        if (this.dynamometers !== undefined) {
+        if (this.dynamometers != undefined) {
             this.settings.curveLength = 250 + (applicationRendering.topicVariables.angle - 45);
 
             this.ctx.beginPath();
@@ -282,7 +282,7 @@ const forcesbyAngleDemo = {
             setPos(xDrop - this.settings.cargoSize / 2, yDrop);
 
             // if element was taken from the box 
-            if (el.x !== this.vars.startedDragCoord.x && el.y !== this.vars.startedDragCoord.y) {
+            if (el.x != this.vars.startedDragCoord.x && el.y != this.vars.startedDragCoord.y) {
                 this.vars.suspendedCount++;
                 dragRendering.redraw();
                 this.vars.totalWeight += Number(el.weight);
@@ -315,7 +315,7 @@ const forcesbyAngleDemo = {
                     break;
             }
 
-            if (el.x !== this.vars.startedDragCoord.x && el.y !== this.vars.startedDragCoord.y) {
+            if (el.x != this.vars.startedDragCoord.x && el.y != this.vars.startedDragCoord.y) {
                 this.vars.suspendedCount--;
                 this.vars.totalWeight -= Number(el.weight);
             }
@@ -334,7 +334,7 @@ const forcesbyAngleDemo = {
      */
     setDraggingFlags: function () {
         // all bricks can be dragged
-        if (this.vars.suspendedCount === 0 || this.vars.suspendedCount === 1) {
+        if (this.vars.suspendedCount == 0 || this.vars.suspendedCount == 1) {
             dragRendering.dragElements.forEach(element => { element.isDraggable = true; });
         }
         else if (this.vars.suspendedCount > 1) {
@@ -342,7 +342,7 @@ const forcesbyAngleDemo = {
 
             let setDragging = function (element, id, x) {
                 if (element.id === id) {
-                    if (element.elem.x === x) {
+                    if (element.elem.x == x) {
                         element.isDraggable = true;
                     }
                     else {
@@ -362,7 +362,7 @@ const forcesbyAngleDemo = {
             //  only last brick on the rope can be dragged
             let pos = this.getDropPosition().y - this.settings.cargoSizeWithHook;
             dragRendering.dragElements.forEach(element => {
-                if (element.elem.y === pos) {
+                if (element.elem.y == pos) {
                     element.isDraggable = true;
                 }
             });
@@ -399,7 +399,7 @@ const forcesbyAngleDemo = {
             setPos(dragRendering.findElem(this.constants.zBrickName).elem, this.settings.zCargoCoord.x, this.settings.zCargoCoord.y);
         }
 
-        if (this.dynamometers !== undefined) {
+        if (this.dynamometers != undefined) {
             this.dynamometers.dynamLeft.setStaticValue(0);
             this.dynamometers.dynamRight.setStaticValue(0);
         }
@@ -414,7 +414,7 @@ const forcesbyAngleDemo = {
 
 
     // clears all variables
-    empty: function () {
+    reset: function () {
         this.dynamometers = undefined;
         this.clear();
     },

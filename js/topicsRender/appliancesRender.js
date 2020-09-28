@@ -49,8 +49,9 @@ const appliancesDemo = {
             centerY: 300,
             radius: 100,
             ringColor: "red",
-            backRingColor: "yellow",
+            innerRingColor: "yellow",
             canvas: this.canvas,
+            rotateStep : 0.1,
             angle: 45,
             maxValue: 20
         });
@@ -59,11 +60,6 @@ const appliancesDemo = {
             centerX: 600,
             centerY: 300,
             radius: 100,
-            angle: 0,
-            ringColor: "red",
-            backRingColor: "yellow",
-            innerRingColor: "green",
-            pointerColor: "#d95358",
             canvas: this.canvas
         });
 
@@ -106,10 +102,10 @@ const appliancesDemo = {
         ruler.draw();
         spring.draw();
         dynamometer.draw();
-        dynamometer.setStaticValue(-3);
+        dynamometer.setStaticValue(-2);
+
         appliance.draw();
         appliance.drawPointer(90);
-
 
         springDynamometer.draw();
     },

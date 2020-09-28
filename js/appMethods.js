@@ -17,7 +17,7 @@ const application = {
         const promise = new Promise((resolve) => {
             timer = setTimeout(resolve, ms);
         });
-        return { promise : promise, timer : timer };
+        return { promise , timer  };
     },
 
     /**

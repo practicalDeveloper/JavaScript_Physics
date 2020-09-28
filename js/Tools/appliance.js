@@ -1,10 +1,5 @@
-/**
- * Canvas drawn object to create measure tools like clocks, dynamometers, timers
- */
-
-
  /**
-  * Canvas drawn object to create measure tools like clocks, dynamometers, timers
+  * Canvas drawn object to create face of gauge tools like clocks, dynamometers, timers
   * @options {obj} destructing parameters
   */
 function Appliance(options = {}) {
@@ -13,13 +8,13 @@ function Appliance(options = {}) {
   Object.assign(this, {
     centerX: 0, // X center coordinate 
     centerY: 0, // Y center coordinate 
-    radius: 50,
-    angle: 0, // rotation angle around center point
-    ringColor: "#5f5f5f",
-    backRingColor: "#e9e9e9",
-    innerRingColor: "#7e7e7e",
+    radius: 50, // radius of the appliance's face
+    angle: 0, // applies rotation angle around center's point
+    ringColor: "#5f5f5f", // color of outer ring
+    innerRingColor: "#e9e9e9", // color of the second outer ring
+    backRingColor: "#7e7e7e", // color of background ring
     pointerColor: "#d95358", // color of arrow pointer 
-    canvas: undefined
+    canvas: undefined // canvas to draw on 
   }, options);
 
   // canvas' context 
@@ -37,13 +32,14 @@ function Appliance(options = {}) {
     }, // drawCenterDot
 
     // Function to draw arcs of Appliance's face
-    drawArc: function ({ radius = this.radius,
-      fillStyle = undefined,
-      strokeStyle = undefined,
-      lineWidth = undefined,
-      shadowColor = undefined,
-      shadowOffset = undefined,
-      shadowBlur = undefined }) {
+    drawArc: function ({ 
+      fillStyle,
+      strokeStyle,
+      lineWidth,
+      shadowColor,
+      shadowOffset,
+      shadowBlur,
+      radius = this.radius }) {
 
         this.context.save();
         this.context.beginPath();
@@ -107,10 +103,10 @@ function Appliance(options = {}) {
       let y2_out = this.centerY + (shiftCoordOut * Math.sin(angle));
 
       return {
-        x1_out: x1_out,
-        y1_out: y1_out,
-        x2_out: x2_out,
-        y2_out: y2_out
+        x1_out,
+        y1_out,
+        x2_out,
+        y2_out
       };
     }, //coordCalc
 
@@ -130,20 +126,21 @@ function Appliance(options = {}) {
 
       // inner circle
       this.fieldsAppl.drawArc.call(this, {
-        radius: this.propsAppl.getInnerRadius(), fillStyle: this.backRingColor,
-        strokeStyle: this.innerRingColor, lineWidth: this.propsAppl.getInnerCircleWidth(), shadowColor: 'black', shadowOffset: 1, shadowBlur: 1
+         fillStyle: this.innerRingColor,
+        strokeStyle: this.backRingColor, lineWidth: this.propsAppl.getInnerCircleWidth(), shadowColor: 'black', shadowOffset: 1, shadowBlur: 1,
+        radius: this.propsAppl.getInnerRadius()
       });
 
       // center outer ring 
       grad.addColorStop(0, 'white');
-      grad.addColorStop(0.5, this.innerRingColor);
-      this.fieldsAppl.drawArc.call(this, { radius: this.propsAppl.getCenterRingWidth(), fillStyle: grad, shadowColor: 'black', shadowOffset: 1, shadowBlur: 1 });
+      grad.addColorStop(0.5, this.backRingColor);
+      this.fieldsAppl.drawArc.call(this, {  fillStyle: grad, shadowColor: 'black', shadowOffset: 1, shadowBlur: 1, radius: this.propsAppl.getCenterRingWidth() });
 
       // center inner ring 
       grad = this.context.createLinearGradient(this.centerX, this.centerY + this.radius * 0.7, this.centerX, this.centerY - this.radius);
-      grad.addColorStop(0, this.innerRingColor);
+      grad.addColorStop(0, this.backRingColor);
       grad.addColorStop(0.5, 'white');
-      this.fieldsAppl.drawArc.call(this, { radius: this.propsAppl.getCenterInnerRingWidth(), fillStyle: grad, shadowColor: 'black', shadowOffset: 1, shadowBlur: 1 });
+      this.fieldsAppl.drawArc.call(this, {  fillStyle: grad, shadowColor: 'black', shadowOffset: 1, shadowBlur: 1, radius: this.propsAppl.getCenterInnerRingWidth() });
     }, // drawInnerFace
 
     // Draws outer circle with shadow of Appliance's face

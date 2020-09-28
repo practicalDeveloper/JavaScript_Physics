@@ -152,18 +152,26 @@ Ball.prototype.draw = function () {
   let ctx = this.canvas.getContext("2d");
 
   ctx.save();
-
+  
+  // background
   ctx.beginPath();
+  contextLayout.applyShadow(ctx);
   ctx.ellipse(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, this.height / 2, 0, 0, 2 * Math.PI);
   ctx.fillStyle = this.fill;
-
+  
   ctx.closePath();
   ctx.fill();
-
-  ctx.stroke();
   ctx.restore();
-
   ctx.save();
+
+  // border
+  ctx.beginPath();
+  ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, 2 * Math.PI, false);
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = 'black';  
+   ctx.stroke();
+
+  // hook
   this.props.drawHook(ctx);
   contextLayout.drawCenterText(ctx, this.props.getItemFont(),
     this.itemText, this.x + this.width / 2, this.y + this.height / 2);

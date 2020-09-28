@@ -4,7 +4,6 @@
 const pendulumDemo = {
     canvas: undefined,
     ctx: undefined,
-    cancelTimer: false,
     timer: undefined,
 
     constants: Object.freeze({
@@ -38,7 +37,6 @@ const pendulumDemo = {
     * Drawing of the pendulum 
     */
     drawPendulum: function (xCoord, yCoord, ballColor) {
-        
 
         //holder
         this.ctx.save();
@@ -84,11 +82,8 @@ const pendulumDemo = {
     animatePendulum: function (startAngle, timeInterval, startAngle2, timeInterval2) {
 
         let interval = 20; // interval for the timer in ms
-        let secondsInterval = 0;
         var expected = Date.now() + interval;
-        this.timer = setTimeout(step, interval);
         let canvas = this.canvas;
-
 
         let calculateSettings = (angle, period) => {
             let angleStep = 0; // speed movement of the pendulum according to timeInterval
@@ -124,11 +119,11 @@ const pendulumDemo = {
             }
 
             return { 
-                    angleStep: angleStep,
-                    endAngle : endAngle,
-                    degrDiff : degrDiff,
-                    currentAngle : currentAngle,
-                    angle : angle
+                    angleStep,
+                    endAngle ,
+                    degrDiff ,
+                    currentAngle ,
+                    angle 
                 }
         }
 
@@ -151,22 +146,18 @@ const pendulumDemo = {
         let endAngle2 = secondSettings.endAngle;
         let currentAngle2 = secondSettings.currentAngle;
 
-        function step() {
+        let step = () => { 
             var dt = Date.now() - expected;
-
-            contextLayout.clearCanvas(pendulumDemo.canvas);
-            let font = 20 + "px Tahoma"
-
+            contextLayout.clearCanvas(this.canvas);
             expected += interval;
-            secondsInterval ++;
 
             currentAngle = application.roundTwoDigits(currentAngle + angleStep);
             if (currentAngle >= endAngle || currentAngle <= startAngle) {
                 angleStep = - angleStep;
             }
 
-            currentPosition.x = pendulumDemo.settings.pendulumCoord.x + (Math.cos(application.degrToRad(currentAngle)) * radius);
-            currentPosition.y = pendulumDemo.settings.pendulumCoord.y + (Math.sin(application.degrToRad(currentAngle)) * radius);
+            currentPosition.x = this.settings.pendulumCoord.x + (Math.cos(application.degrToRad(currentAngle)) * radius);
+            currentPosition.y = this.settings.pendulumCoord.y + (Math.sin(application.degrToRad(currentAngle)) * radius);
 
 
 
@@ -175,20 +166,17 @@ const pendulumDemo = {
                 angleStep2 = - angleStep2;
             }
 
-            currentPosition2.x = pendulumDemo.settings.pendulumCoord.x + (Math.cos(application.degrToRad(currentAngle2)) * radius2);
-            currentPosition2.y = pendulumDemo.settings.pendulumCoord.y + (Math.sin(application.degrToRad(currentAngle2)) * radius2);
+            currentPosition2.x = this.settings.pendulumCoord.x + (Math.cos(application.degrToRad(currentAngle2)) * radius2);
+            currentPosition2.y = this.settings.pendulumCoord.y + (Math.sin(application.degrToRad(currentAngle2)) * radius2);
 
             contextLayout.clearCanvas(canvas);
-            pendulumDemo.drawPendulum(currentPosition.x, currentPosition.y, 'red');
-            pendulumDemo.drawPendulum(currentPosition2.x, currentPosition2.y, 'blue');
+            this.drawPendulum(currentPosition.x, currentPosition.y, 'red');
+            this.drawPendulum(currentPosition2.x, currentPosition2.y, 'blue');
             
-            if (secondsInterval === Math.round(1000 / interval)) {
-                secondsInterval = 0;
-            }
-
-            pendulumDemo.timer = setTimeout(step, Math.max(0, interval - dt)); 
+            this.timer = setTimeout(step, Math.max(0, interval - dt)); 
         }
 
+        this.timer = setTimeout(step, interval);
     },
 
     /**
@@ -209,10 +197,15 @@ const pendulumDemo = {
     },
 
     stopTimer: function () {
-        if (this.timer !== undefined) {
+        if (this.timer != undefined) {
             clearTimeout(this.timer);
         }
-    }
+    },
+
+    // clears all variables
+    reset: function () {
+        this.stopTimer();
+    },
 
 
-}
+} // pendulumDemo

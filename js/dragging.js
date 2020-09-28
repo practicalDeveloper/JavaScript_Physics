@@ -87,7 +87,7 @@ const dragRendering = {
 
         e.preventDefault();
         e.stopPropagation();
-        if (this.dragElements[0].elem != undefined) {
+        if (this.dragElements.length != 0  && this.dragElements[0].elem != undefined) {
             // get the current mouse position
             let mx = coord.mx;
             let my = coord.my;
@@ -117,7 +117,7 @@ const dragRendering = {
         e.preventDefault();
         e.stopPropagation();
 
-        if (this.dragElements[0].elem != undefined) {
+        if (this.dragElements.length != 0  && this.dragElements[0].elem != undefined) {
             var dragElem = this.dragElements.find(el => el.isDragging == true);
 
             // clear all the dragging flags

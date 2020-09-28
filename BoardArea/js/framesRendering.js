@@ -5,7 +5,7 @@
 const frameRender = {
 
     /**
-     * custom function to send message to parent from IFrame
+     * custom function to send message from IFrame to parent 
      */
     passControlsMessage: function () { },
 
@@ -39,20 +39,24 @@ const frameRender = {
     },// bindEvents
 
     /**
-     * custom function to call when data from the main window received
+     * custom function to call when received data from the main window 
      */
     receiveData: function (data) {
 
     }
-}
+} // frameRender
 
-
+/**
+ * To pass message to parent window
+ */
 window.onload = function () {
     frameRender.bindEvents();
     frameRender.passControlsMessage();
 };
 
-
+/**
+ * To receive message from parent window
+ */
 window.addEventListener(
     "message",
     function (e) {

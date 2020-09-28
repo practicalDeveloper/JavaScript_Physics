@@ -111,6 +111,7 @@
         } // passControlsMessage
 
 
+        // function to get data from the main window for IFrame
         frameRender.receiveData = function (data) {
             let vars = JSON.parse(data);
             document.getElementById('forceLabel').innerHTML = vars.buyonantForce;
