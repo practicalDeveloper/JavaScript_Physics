@@ -268,5 +268,4 @@ SpringDynamometer.prototype = {
 
   }// setValue
 
-
 }

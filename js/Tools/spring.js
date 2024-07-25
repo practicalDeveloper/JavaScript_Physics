@@ -15,7 +15,7 @@ function Spring(options = {}) {
     angle: 0, // rotation angle relatively of upper left corner
     swingWidth: 3 // width of each swing
   }, options);
-}
+} 
 
 Spring.prototype.draw = function () {
   let ctx = this.canvas.getContext("2d");

@@ -188,7 +188,6 @@ Dynamometer.prototype = {
     this.valueOnChange(valuePointer);
   }, // setStaticValue
 
-
   
   /**
    * sets arrow indicator to value with animation

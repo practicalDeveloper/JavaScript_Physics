@@ -115,6 +115,5 @@ const contextLayout = {
         context.restore();
     }// roundRect
 
-
 }// contextLayout
 

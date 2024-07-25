@@ -213,7 +213,6 @@ const archimedesPrincipleDemo = {
 
 
 
-
     /**
      * Moves dynamometer to the box with liquid
      */

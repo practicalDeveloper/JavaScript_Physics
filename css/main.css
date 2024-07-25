@@ -8,7 +8,6 @@ body {
   display: block; /* No floating content on sides */
 }
 
-
 div.Title {
   display: flex;
   align-items: center;

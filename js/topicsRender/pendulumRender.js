@@ -207,5 +207,4 @@ const pendulumDemo = {
         this.stopTimer();
     },
 
-
 } // pendulumDemo

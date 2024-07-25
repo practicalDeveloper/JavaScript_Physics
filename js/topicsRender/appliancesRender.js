@@ -107,6 +107,6 @@ const appliancesDemo = {
         appliance.draw();
         appliance.drawPointer(90);
 
-        springDynamometer.draw();
+        springDynamometer.draw(); 
     },
 }

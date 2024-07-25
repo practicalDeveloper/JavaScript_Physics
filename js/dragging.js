@@ -205,8 +205,6 @@ const dragRendering = {
             }
         }
 
-
-
     },// canvasMouseMove
 
 }// dragRendering

@@ -90,8 +90,6 @@ function StageItem(options = {}) {
 } // StageItem
 
 
-
-
 /**
  * Canvas drawn brick object
  */

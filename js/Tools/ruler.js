@@ -19,7 +19,6 @@ function Ruler(options = {}) {
 
 }
 
-
 Ruler.prototype.draw = function () {
 
   let ctx = this.canvas.getContext("2d");
@@ -42,7 +41,6 @@ Ruler.prototype.draw = function () {
     ctx.rect(this.startX, this.startY, this.length, this.height);
     ctx.stroke();
   }
-
 
   ctx.beginPath();
   ctx.strokeStyle = this.strokeColor;

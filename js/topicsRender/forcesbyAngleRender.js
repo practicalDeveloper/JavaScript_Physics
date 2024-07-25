@@ -441,6 +441,4 @@ const forcesbyAngleDemo = {
         }
     },
 
-
-
 } // forcesbyAngleDemo

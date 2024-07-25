@@ -121,9 +121,6 @@ const applicationRendering = {
 
 
 
-
-
-
 // implementation
 applicationRendering.initialInit();
 
